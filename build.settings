@@ -2,12 +2,16 @@
 -- portrait, portraitUpsideDown, landscapeLeft, landscapeRight
 
 settings = {
-	
+
+  excludeFiles = {
+    all = { "doc/*", "specs/*"}
+  }
+
 	orientation = {
 		default = "portrait",
 		supported = { "portrait", }
 	},
-	
+
 	iphone = {
 		plist = {
 			UIStatusBarHidden = false,
@@ -29,7 +33,7 @@ settings = {
             --]]
 		}
 	},
-	
+
 	--[[
 	-- Android permissions
 
