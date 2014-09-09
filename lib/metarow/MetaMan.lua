@@ -36,7 +36,13 @@ function MetaMan:__init( solutionName )
     solutionName .. ".sqlite", system.DocumentsDirectory
   )
   if io.open( documentPath, "r" ) then
-    --TODO check _MetaRow version
+    local handle_res = sqlite3.open( resourcePath )
+    local version_res = MetaMan.getVersion( handle_res )
+    local handle_doc = sqlite3.open( documentPath )
+    local version_doc = MetaMan.getVersion( handle_doc )
+    if version_res > version_doc then
+      MetaMan.updateMetaTable( handle_res, handle_doc )
+    end
   else
     if not resourcePath then return nil end
     copy( resourcePath, documentPath )
@@ -56,6 +62,21 @@ function MetaMan.getVersion( handle )
     version = json.decode( values[1] ).version
   end )
   return version
+end
+
+function MetaMan.updateMetaTable( handle_res, handle_doc )
+  local sql_res = "SELECT type, key, value FROM _MetaRow;"
+  handle_doc:exec"DELETE FROM _MetaRow;"
+  local stmt = handle_doc:prepare[[
+    INSERT INTO _MetaRow (type, key, value)
+    VALUES ( :type, :key, :value );
+  ]]
+  for res in handle_res:nrows( sql_res ) do
+    stmt:bind_names{ type=res.type, key=res.key, value=res.value }
+    stmt:step()
+    stmt:reset()
+  end
+  handle_doc:close( )
 end
 
 return MetaMan
