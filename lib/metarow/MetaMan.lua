@@ -19,6 +19,8 @@ else
   local sqlite3 = require "sqlite3"
 end
 
+local json = require "json"
+
 local base = require 'lib.loop.base'
 local MetaMan = base.class( )
 
@@ -40,9 +42,20 @@ function MetaMan:__init( solutionName )
     copy( resourcePath, documentPath )
   end
   local handle = sqlite3.open( documentPath )
+  local version = MetaMan.getVersion( handle )
   return base.rawnew( self, {
-      handle = handle
+      handle = handle,
+      version = version
   })
+end
+
+function MetaMan.getVersion( handle )
+  local sql = "SELECT value FROM _MetaRow WHERE type='config' AND key='solution'"
+  local version
+  handle:exec( sql, function ( udata, cols, values, names )
+    version = json.decode( values[1] ).version
+  end )
+  return version
 end
 
 return MetaMan
