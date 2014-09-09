@@ -1,7 +1,4 @@
------------------------------------------------------------------------------------------
---
--- main.lua
---
------------------------------------------------------------------------------------------
+local MetaMan = require"lib.metarow.MetaMan"
 
--- Your code here
+local solutionName = "inventory"
+local root = MetaMan( solutionName )
