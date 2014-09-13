@@ -11,6 +11,25 @@ local resourcePath = system.pathForFile(
 local documentPath = system.pathForFile(
   solutionName .. ".sqlite", system.DocumentsDirectory
 )
+local createMetaTableString = [[
+  CREATE TABLE "_MetaRow" (
+    "type" TEXT NOT NULL,
+    "key" TEXT NOT NULL,
+    "value" TEXT,
+    CONSTRAINT "type_key" PRIMARY KEY ("type", "key")
+  );
+]]
+local jsonString = [[
+  [
+    {
+      "fun" : {
+        "name" : "createRect",
+        "params" : {"x" : { "val" : 100 },"y" : { "val" : 100 }}
+      }
+    }
+  ]
+]]
+
 
 describe( "basic functions", function( )
   it( "looks for a solution database", function( )
@@ -37,5 +56,17 @@ describe( "basic functions", function( )
     stmt:step()
     local root = MetaMan( solutionName )
     assert.are.equals( version_res, root.version)
+  end)
+  it( "loads a json string from database", function( )
+    local root = MetaMan( 'MEMORY' )
+    assert.is_not_nil( root )
+    root.handle:exec( createMetaTableString )
+    local  sql = ([[
+      INSERT INTO _MetaRow (type, key, value)
+      VALUES ( 'view', 'index', '%s');
+    ]]):format( jsonString )
+    root.handle:exec( sql )
+    local d = json.decode( root:getDefinition( 'view', 'index' ) )
+    assert.are.equals( 'createRect', d[1].fun.name )
   end)
 end)

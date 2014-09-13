@@ -29,6 +29,16 @@ local MetaMan = base.class( )
 -- @tparam string solutionName solution to be open
 -- @treturn MetaMan the initalized MetaRow Manager
 function MetaMan:__init( solutionName )
+  local handle
+  -- for faster testing
+  if solutionName == 'MEMORY' then
+    handle = sqlite3.open_memory()
+    return base.rawnew( self, {
+      handle = handle,
+      version = '0.0'
+    })
+  end
+
   local resourcePath = system.pathForFile(
     "data/" .. solutionName .. ".sqlite", system.ResourceDirectory
   )
@@ -47,7 +57,7 @@ function MetaMan:__init( solutionName )
     if not resourcePath then return nil end
     copy( resourcePath, documentPath )
   end
-  local handle = sqlite3.open( documentPath )
+  handle = sqlite3.open( documentPath )
   local version = MetaMan.getVersion( handle )
   return base.rawnew( self, {
       handle = handle,
@@ -77,6 +87,16 @@ function MetaMan.updateMetaTable( handle_res, handle_doc )
     stmt:reset()
   end
   handle_doc:close( )
+end
+
+function MetaMan:getDefinition( type, key )
+  local definition
+  local sql =
+    ([[SELECT value FROM _MetaRow WHERE type='%s' AND key='%s']]):format( type, key )
+  self.handle:exec( sql, function ( udata, cols, values, names )
+    definition =  values[1]
+  end)
+  return definition
 end
 
 return MetaMan
