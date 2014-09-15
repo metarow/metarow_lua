@@ -8,6 +8,10 @@ function MetaJSON:__init( jsonString )
   return oo.rawnew( self, { data = data } )
 end
 
+function MetaJSON:setData( jsonString )
+  self.data = json.decode( jsonString or '{}')
+end
+
 function MetaJSON:setFun( funTable )
   self.fun = funTable
 end

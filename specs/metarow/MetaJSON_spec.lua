@@ -4,24 +4,8 @@ local jsonString
 
 describe( "basic functions", function ( )
   setup( function ( )
-    jsonString = [[
-      [
-        {
-          "fun" : {
-            "name" : "createRect",
-            "params" : {
-              "x" : { "val" : 1 },
-              "y" : { "val" : 1 },
-              "width" :  { "fun" : { "name":"contentWidth" }},
-              "height" : { "fun" : { "name":"contentHeight" }},
-              "fill" : { "val" : [1, 1, 1] },
-              "stroke" : { "val" : [0.5, 0.5, 0.5] },
-              "strokeWidth" : { "val" : 2 }
-            }
-          }
-        }
-      ]
-    ]]
+    local f = io.open( 'specs/metarow/view_string.json', "r" )
+    jsonString = f:read( "*a" )
   end)
 
   it( "stores empty table for no JSON string", function( )
@@ -35,8 +19,14 @@ describe( "basic functions", function ( )
     local d = MetaJSON( jsonString )
     assert.is_not_nil( d )
     assert.is_true( type( d.data ) == 'table')
-    assert.are.equal( 1, #d.data )
+    assert.are.equal( 4, #d.data )
     assert.are.equal( 'createRect', d.data[1].fun.name )
+  end)
+
+  it( "sets data from new JSON string", function( )
+    local d = MetaJSON()
+    d:setData( jsonString )
+    assert.is_true( type( d.data ) == 'table')
   end)
 
   it( "holds an array with functions", function( )
@@ -61,8 +51,8 @@ describe( "basic functions", function ( )
         "params" : {
           "x" : { "val" : 1 },
           "y" : { "val" : 1 },
-          "width" :  { "fun" : { "name":"contentWidth" }},
-          "height" : { "fun" : { "name":"contentHeight" }},
+          "width" :  { "fun" : { "name":"screenWidth" }},
+          "height" : { "fun" : { "name":"screenHeight" }},
           "fill" : { "val" : [1, 1, 1] },
           "stroke" : { "val" : [0.5, 0.5, 0.5] },
           "strokeWidth" : { "val" : 2 }
@@ -70,10 +60,10 @@ describe( "basic functions", function ( )
       }
     ]])
     d:setFun{
-      contentWidth = function( )
+      screenWidth = function( )
         return 768
       end,
-      contentHeight = function( )
+      screenHeight = function( )
         return 1024
       end
     }
@@ -88,13 +78,13 @@ describe( "basic functions", function ( )
       createRect = function( params )
         return params.x
       end,
-      contentWidth = function( )
+      screenWidth = function( )
         return 768
       end,
-      contentHeight = function( )
+      screenHeight = function( )
         return 1024
       end
     }
-    assert.are.equal( 1, d:getMeta( d.data[1]) )
+    assert.are.equal( 0, d:getMeta( d.data[1]) )
   end)
 end)

@@ -1,5 +1,6 @@
 --spec_helper.lua
 inspect = require"inspect"
+local oo = require 'lib.loop.base'
 
 local lfs = require"lfs"
 
@@ -33,5 +34,23 @@ system.ResourceDirectory = lfs.currentdir()
 
 if not folderExists( system.DocumentsDirectory ) then
   os.execute( "mkdir -p " .. system.DocumentsDirectory )
+end
+
+display = {}
+display.groups = {}
+
+display.GroupObject = oo.class( )
+
+function display.GroupObject:__init(  )
+  return oo.rawnew( self, { objects = { } , numChildren = 0} )
+end
+
+function display.GroupObject:insert( object )
+  self.objects[#self.objects+1] = object
+  self.numChildren = self.numChildren + 1
+end
+
+function display.newGroup( )
+  return display.GroupObject( )
 end
 

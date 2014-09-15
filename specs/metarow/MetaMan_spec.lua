@@ -2,7 +2,10 @@ require"specs.spec_helper"
 local sqlite3 = require "lsqlite3"
 local json = require "json"
 
+local base = require"lib.loop.base"
 local MetaMan = require"lib.metarow.MetaMan"
+local MetaJSON = require"lib.metarow.MetaJSON"
+
 
 local solutionName = "inventory"
 local resourcePath = system.pathForFile(
@@ -19,17 +22,8 @@ local createMetaTableString = [[
     CONSTRAINT "type_key" PRIMARY KEY ("type", "key")
   );
 ]]
-local jsonString = [[
-  [
-    {
-      "fun" : {
-        "name" : "createRect",
-        "params" : {"x" : { "val" : 100 },"y" : { "val" : 100 }}
-      }
-    }
-  ]
-]]
-
+local f = io.open( 'specs/metarow/view_string.json', "r" )
+local viewString = f:read( "*a" )
 
 describe( "basic functions", function( )
   it( "looks for a solution database", function( )
@@ -64,9 +58,18 @@ describe( "basic functions", function( )
     local  sql = ([[
       INSERT INTO _MetaRow (type, key, value)
       VALUES ( 'view', 'index', '%s');
-    ]]):format( jsonString )
+    ]]):format( viewString )
     root.handle:exec( sql )
     local d = json.decode( root:getDefinition( 'view', 'index' ) )
     assert.are.equals( 'createRect', d[1].fun.name )
+  end)
+end)
+
+describe( "build mvc objects", function( )
+  it( "init a view creator", function( )
+    local root = MetaMan( 'MEMORY' )
+    assert.is_not_nil( root.view )
+    assert.is_true( base.instanceof( root.view, MetaJSON ))
+
   end)
 end)

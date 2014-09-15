@@ -30,38 +30,39 @@ local MetaMan = base.class( )
 -- @treturn MetaMan the initalized MetaRow Manager
 function MetaMan:__init( solutionName )
   local handle
+  local version
+  local view = require"lib.metarow.view"
+
   -- for faster testing
   if solutionName == 'MEMORY' then
     handle = sqlite3.open_memory()
-    return base.rawnew( self, {
-      handle = handle,
-      version = '0.0'
-    })
-  end
-
-  local resourcePath = system.pathForFile(
-    "data/" .. solutionName .. ".sqlite", system.ResourceDirectory
-  )
-  local documentPath = system.pathForFile(
-    solutionName .. ".sqlite", system.DocumentsDirectory
-  )
-  if io.open( documentPath, "r" ) then
-    local handle_res = sqlite3.open( resourcePath )
-    local version_res = MetaMan.getVersion( handle_res )
-    local handle_doc = sqlite3.open( documentPath )
-    local version_doc = MetaMan.getVersion( handle_doc )
-    if version_res > version_doc then
-      MetaMan.updateMetaTable( handle_res, handle_doc )
-    end
+    version = 0.0
   else
-    if not resourcePath then return nil end
-    copy( resourcePath, documentPath )
+    local resourcePath = system.pathForFile(
+      "data/" .. solutionName .. ".sqlite", system.ResourceDirectory
+    )
+    local documentPath = system.pathForFile(
+      solutionName .. ".sqlite", system.DocumentsDirectory
+    )
+    if io.open( documentPath, "r" ) then
+      local handle_res = sqlite3.open( resourcePath )
+      local version_res = MetaMan.getVersion( handle_res )
+      local handle_doc = sqlite3.open( documentPath )
+      local version_doc = MetaMan.getVersion( handle_doc )
+      if version_res > version_doc then
+        MetaMan.updateMetaTable( handle_res, handle_doc )
+      end
+    else
+      if not resourcePath then return nil end
+      copy( resourcePath, documentPath )
+    end
+    handle = sqlite3.open( documentPath )
+    version = MetaMan.getVersion( handle )
   end
-  handle = sqlite3.open( documentPath )
-  local version = MetaMan.getVersion( handle )
   return base.rawnew( self, {
       handle = handle,
-      version = version
+      version = version,
+      view = view
   })
 end
 
