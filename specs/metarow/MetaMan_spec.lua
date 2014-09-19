@@ -27,14 +27,14 @@ local viewString = f:read( "*a" )
 
 describe( "basic functions", function( )
   it( "looks for a solution database", function( )
-    local root = MetaMan( solutionName )
+    local root = MetaMan{ solutionName=solutionName }
     assert.is_not_nil( root )
     assert.is_not_nil( root.handle )
   end)
   it( "reads the solution version", function( )
     local handle = sqlite3.open( documentPath )
     local version = MetaMan.getVersion( handle )
-    local root = MetaMan( solutionName )
+    local root = MetaMan{ solutionName=solutionName }
     assert.are.equals( version, root.version)
   end)
   it( "updates the meta table for higher system version", function( )
@@ -48,11 +48,11 @@ describe( "basic functions", function( )
     ]]
     stmt:bind_names{ value=[[{"version":"0.0"}]] }
     stmt:step()
-    local root = MetaMan( solutionName )
+    local root = MetaMan{ solutionName=solutionName }
     assert.are.equals( version_res, root.version)
   end)
   it( "loads a json string from database", function( )
-    local root = MetaMan( 'MEMORY' )
+    local root = MetaMan{ }
     assert.is_not_nil( root )
     root.handle:exec( createMetaTableString )
     local  sql = ([[
@@ -67,7 +67,7 @@ end)
 
 describe( "build mvc objects", function( )
   it( "init a view creator", function( )
-    local root = MetaMan( 'MEMORY' )
+    local root = MetaMan{ }
     assert.is_not_nil( root.view )
     assert.is_true( base.instanceof( root.view, MetaJSON ))
 

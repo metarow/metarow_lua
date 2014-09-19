@@ -22,11 +22,11 @@ end
 -- @param class
 -- @param ... values of the extra arguments
 -- @return an instance of class
-function base.new( class, ... )
-	if class.__init
-		then return class:__init( ... )
-		else return base.rawnew( class, ... )
+function base.new( class, options )
+	if class.__init then
+		options = class:__init( options )
 	end
+	return base.rawnew( class, options )
 end
 
 --- Initialize table as a class.

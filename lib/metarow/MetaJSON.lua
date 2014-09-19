@@ -3,13 +3,15 @@ local MetaJSON = oo.class( )
 
 local json = require "json"
 
-function MetaJSON:__init( jsonString )
-  local data = json.decode( jsonString or '{}')
-  return oo.rawnew( self, { data = data } )
+function MetaJSON:__init( args )
+  args = args or { }
+  local attribs = { }
+  attribs.data = json.decode( args.json or '{ }' )
+  return attribs
 end
 
 function MetaJSON:setData( jsonString )
-  self.data = json.decode( jsonString or '{}')
+  self.data = json.decode( jsonString or '{ }' )
 end
 
 function MetaJSON:setFun( funTable )

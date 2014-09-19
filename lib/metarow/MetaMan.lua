@@ -26,23 +26,24 @@ local MetaMan = base.class( )
 
 --- create a solution object
 -- instances of MetaMan can drive a MetaJSON based solution
--- @tparam string solutionName solution to be open
+-- @tparam table args args.solutionName defines the solution to be open
 -- @treturn MetaMan the initalized MetaRow Manager
-function MetaMan:__init( solutionName )
+function MetaMan:__init( args )
+  args = args or { }
+  local attribs = { }
   local handle
   local version
-  local view = require"lib.metarow.view"
 
   -- for faster testing
-  if solutionName == 'MEMORY' then
-    handle = sqlite3.open_memory()
-    version = 0.0
+  if not args.solutionName then
+    attribs.handle = sqlite3.open_memory()
+    attribs.version = 0.0
   else
     local resourcePath = system.pathForFile(
-      "data/" .. solutionName .. ".sqlite", system.ResourceDirectory
+      "data/" .. args.solutionName .. ".sqlite", system.ResourceDirectory
     )
     local documentPath = system.pathForFile(
-      solutionName .. ".sqlite", system.DocumentsDirectory
+      args.solutionName .. ".sqlite", system.DocumentsDirectory
     )
     if io.open( documentPath, "r" ) then
       local handle_res = sqlite3.open( resourcePath )
@@ -56,14 +57,13 @@ function MetaMan:__init( solutionName )
       if not resourcePath then return nil end
       copy( resourcePath, documentPath )
     end
-    handle = sqlite3.open( documentPath )
-    version = MetaMan.getVersion( handle )
+    attribs.handle = sqlite3.open( documentPath )
+    attribs.version = MetaMan.getVersion( attribs.handle )
   end
-  return base.rawnew( self, {
-      handle = handle,
-      version = version,
-      view = view
-  })
+
+  attribs.view = require"lib.metarow.view"
+
+  return attribs
 end
 
 function MetaMan.getVersion( handle )

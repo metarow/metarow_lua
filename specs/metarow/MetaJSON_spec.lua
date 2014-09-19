@@ -16,7 +16,7 @@ describe( "basic functions", function ( )
   end)
 
   it( "stores parsed JSON data", function( )
-    local d = MetaJSON( jsonString )
+    local d = MetaJSON{ json = jsonString }
     assert.is_not_nil( d )
     assert.is_true( type( d.data ) == 'table')
     assert.are.equal( 4, #d.data )
@@ -30,7 +30,7 @@ describe( "basic functions", function ( )
   end)
 
   it( "holds an array with functions", function( )
-    local d = MetaJSON( jsonString )
+    local d = MetaJSON{ json = jsonString }
     local createRect = function( )
       return 1
     end
@@ -41,12 +41,12 @@ describe( "basic functions", function ( )
   end)
 
   it( "handles MetaJSON key val", function( )
-    local d = MetaJSON( '{ "val" : 1 }' )
+    local d = MetaJSON{ json = '{ "val" : 1 }' }
     assert.are.equal( 1, d:getMeta( d.data ))
   end)
 
   it( "parses params key", function( )
-    local d = MetaJSON([[
+    local d = MetaJSON{ json = [[
       {
         "params" : {
           "x" : { "val" : 1 },
@@ -58,7 +58,7 @@ describe( "basic functions", function ( )
           "strokeWidth" : { "val" : 2 }
         }
       }
-    ]])
+    ]] }
     d:setFun{
       screenWidth = function( )
         return 768
@@ -73,7 +73,7 @@ describe( "basic functions", function ( )
   end)
 
   it( "handles MetaJSON key fun", function( )
-    local d = MetaJSON( jsonString )
+    local d = MetaJSON{ json = jsonString }
     d:setFun{
       createRect = function( params )
         return params.x
