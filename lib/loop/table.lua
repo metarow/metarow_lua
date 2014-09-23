@@ -4,7 +4,7 @@
 -- @author Renato Maia <maia@inf.puc-rio.br>
 -- (basic implementation)
 -- @author Fritz-Rainer Doebbelin <frd@doebbelin.net>
--- (new way module creation)
+-- (new way module creation, merge to tables)
 
 local table = require "table"
 
@@ -39,6 +39,16 @@ function table.clear( tab )
     elem = next( tab )
   end
   return tab
+end
+
+--- Merges two tables
+-- All keys from tab1 overlayed with keys from tab2
+-- @param tab1 table with orignal elements
+-- @param tab2 table with elements to merge
+-- @return table with all merged elements
+function table.merge( tab1, tab2 )
+  for k, v in pairs( tab2 ) do tab1[k] = v end
+  return tab1
 end
 
 return table

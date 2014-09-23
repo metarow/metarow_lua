@@ -22,4 +22,13 @@ describe( "basic functions", function( )
     assert.is_nil( t1.second )
     assert.are.equals( 0, #t1)
   end)
+
+  it( "merges two tables", function( )
+      local t1 = { first=1, second=2 }
+      local t2 = { third=3, second=22 }
+      local t3 = table.merge( t1, t2 )
+      assert.are.equals( 1, t3.first )
+      assert.are.equals( 22, t3.second )
+      assert.are.equals( 3, t3.third )
+  end)
 end)
