@@ -8,21 +8,21 @@ describe( "basic functions", function( )
   end)
 
   it( "checks witch LOOP model", function( )
-    local Root = simple.class( )
-    assert.is_true( simple.isclass( Root ))
-    assert.is_true( base.isclass( Root ))
-    local Tree = simple.class( {}, Root)
-    assert.is_true( simple.isclass( Tree ))
-    assert.is_false( base.isclass( Tree ))
+    local Class1 = simple.class( )
+    assert.is_true( simple.isclass( Class1 ))
+    assert.is_true( base.isclass( Class1 ))
+    local Class2 = simple.class{ __super=Class1 }
+    assert.is_true( simple.isclass( Class2 ))
+    assert.is_false( base.isclass( Class2 ))
   end)
 
   it( "can determine its parent or child", function( )
-    local Root = simple.class( )
+    local Class1 = simple.class( )
     local Head = simple.class( )
-    local Tree = simple.class( {}, Root)
-    assert.are.equals( Root, simple.superclass( Tree ) )
-    assert.is_true( simple.subclassof( Tree, Root ) )
-    assert.is_false( simple.subclassof( Tree, Head ) )
+    local Class2 = simple.class{ __super=Class1 }
+    assert.are.equals( Class1, simple.superclass( Class2 ) )
+    assert.is_true( simple.subclassof( Class2, Class1 ) )
+    assert.is_false( simple.subclassof( Class2, Head ) )
   end)
 
   it( "creates instances", function( )
@@ -34,23 +34,40 @@ describe( "basic functions", function( )
   end)
 
   it( "defines classes with simple inheritance", function( )
-    local Root = simple.class( )
-    function Root:__init( )
-      return simple.rawnew( self, { status = 'old' } )
+    local Class1 = simple.class( )
+    function Class1:__init( args )
+      args = args or { }
+      local attribs = { }
+      attribs.attr1 = args.attr1 or 'value1'
+      return attribs
     end
-    function Root:getStatus( )
-      return self.status
+    function Class1:getAttr1( )
+      return self.attr1
     end
-    local Tree = simple.class( {}, Root)
-    function Tree:__init( )
-      return simple.rawnew( self, { count = 10, status = 'old' } )
+    local Class2 = simple.class{ __super=Class1 }
+    function Class2:__init( args )
+      args = args or { }
+      local attribs = { }
+      attribs.attr2 = args.attr2 or 'value2'
+      return attribs
     end
-    function Tree:getCount( )
-      return self.count
+    function Class2:getAttr2( )
+      return self.attr2
     end
-    local obj = Tree( )
-    assert.are.equals( 'old', obj:getStatus( ) )
-    assert.are.equals( 10, obj:getCount( ) )
+    local Class3 = simple.class{ __super=Class2 }
+    function Class3:__init( args )
+      args = args or { }
+      local attribs = { }
+      attribs.attr3 = args.attr3 or 'value3'
+      return attribs
+    end
+    function Class3:getAttr3( )
+      return self.attr3
+    end
+    local obj = Class3( )
+    assert.are.equals( 'value1', obj:getAttr1( ) )
+    assert.are.equals( 'value2', obj:getAttr2( ) )
+    assert.are.equals( 'value3', obj:getAttr3( ) )
   end)
 
 end)

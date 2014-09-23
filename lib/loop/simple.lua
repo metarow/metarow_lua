@@ -15,6 +15,32 @@ local base = require "lib.loop.base"
 
 table.copy( base, simple )
 
+--- Constructs an instance of class.
+-- Call an optional __init function
+-- @param class
+-- @param ... values of the extra arguments
+-- @return an instance of class
+function simple.new( class, args )
+  local inits = { }
+  local super = class
+  while super do
+    if super.__init then
+      inits[#inits+1] = super.__init
+    end
+    super = simple.superclass( super )
+  end
+  local attribs
+  if #inits then
+    attribs = { }
+    for i=#inits, 1, -1 do
+      attribs = table.merge( attribs, inits[i]( args ) )
+    end
+  else
+    attribs = args or { }
+  end
+  return base.rawnew( class, attribs )
+end
+
 local DerivedClass = ObjectCache {
   retrieve = function( self, super )
     return base.class { __index = super, __call = simple.new }
@@ -25,14 +51,17 @@ local DerivedClass = ObjectCache {
 -- This object can also be used as a constructor of instances.
 -- Changes on the object returned by this function
 -- implies changes reflected on all its instances.
--- @param class table define features for all objects
--- @param super inherits from the class super.
+-- @param args table define properties for all objects
+-- @param args.__super inherits from the class super.
 -- @return a class
-function simple.class( class, super )
-  if super then
-    return DerivedClass[super]( simple.initclass( class ) )
+function simple.class( args )
+  args = args or { }
+  if args.__super then
+    local super = args.__super
+    args.super = nil
+    return DerivedClass[super]( simple.initclass( args ) )
   else
-    return base.class( class )
+    return base.class( args )
   end
 end
 
