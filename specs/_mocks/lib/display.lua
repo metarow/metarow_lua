@@ -1,21 +1,48 @@
 local oo = require 'lib.loop.base'
 
-local display = {}
-display.groups = {}
+display = { }
 
-display.GroupObject = oo.class( )
+display.currentStage = StageObject( )
 
-function display.GroupObject:__init(  )
-  return oo.rawnew( self, { objects = { } , numChildren = 0} )
-end
+display.pixelWidth, display.pixelHeight = setModel( 'iphone' )
 
-function display.GroupObject:insert( object )
-  self.objects[#self.objects+1] = object
-  self.numChildren = self.numChildren + 1
-end
+require"config"
+
+display.contentWidth = application.content.width
+display.contentHeight = application.content.height
 
 function display.newGroup( )
-  return display.GroupObject( )
+  return GroupObject()
 end
 
-return display
+function display.newRect( arg1, arg2, arg3, arg4, arg5 )
+  local args = { arg1, arg2, arg3, arg4, arg5 }
+  local parent = nil
+  if #args == 5 then
+    parent = args[1]
+    table.remove( args, 1 )
+  end
+  local width = args[3]
+  local height = args[4]
+  local origin = 0.5
+  local rect = ShapeObject{
+    x = args[1],
+    y = args[2],
+    path = {
+      type = "rect",
+      width = width,
+      height = height
+    },
+    anchorX = origin,
+    anchorY = origin,
+  }
+  if parent then
+    parent:insert( rect )
+  end
+  display.currentStage:insert( rect )
+  return rect
+end
+
+function display.cleanStage( )
+  display.currentStage = StageObject( )
+end

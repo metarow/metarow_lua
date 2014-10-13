@@ -18,7 +18,7 @@ table.copy( base, simple )
 --- Constructs an instance of class.
 -- Call an optional __init function
 -- @param class
--- @param ... values of the extra arguments
+-- @param args values of the extra arguments
 -- @return an instance of class
 function simple.new( class, args )
   local inits = { }
@@ -33,7 +33,7 @@ function simple.new( class, args )
   if #inits then
     attribs = { }
     for i=#inits, 1, -1 do
-      attribs = table.merge( attribs, inits[i]( args ) )
+      attribs = table.merge( attribs, inits[i]( class, args ) )
     end
   else
     attribs = args or { }

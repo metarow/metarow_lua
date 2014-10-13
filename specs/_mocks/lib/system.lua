@@ -8,7 +8,7 @@ function folderExists(strFolderName)
   end
 end
 
-local system = {}
+system = {}
 
 system.getInfo = function( propertyName )
   local properties = {
@@ -40,5 +40,3 @@ end
 if not folderExists( system.TemporaryDirectory ) then
   os.execute( "mkdir -p " .. system.TemporaryDirectory )
 end
-
-return system

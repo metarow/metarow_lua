@@ -1,5 +1,6 @@
 local simple = require"lib.loop.simple"
 local base = require"lib.loop.base"
+local inspect = require"inspect"
 
 describe( "basic functions", function( )
   it( "copies all inherit functions from base", function( )
@@ -70,4 +71,39 @@ describe( "basic functions", function( )
     assert.are.equals( 'value3', obj:getAttr3( ) )
   end)
 
+  it( "can instantiate through rawnew", function( )
+    local Class = simple.class( )
+    local object = Class{ val=10 }
+    assert.are.equals( 10, object.val )
+  end)
+
+  it( "can instantiate through __init", function( )
+    local Class1 = simple.class( )
+    function Class1:__init( args )
+      args = args or { }
+      local attribs = args
+      attribs.val1 = attribs.val1 or 1
+      attribs.val2 = 2
+      return attribs
+    end
+    local Class2 = simple.class{ __super=Class1 }
+    function Class2:__init( args )
+      args = args or { }
+      local attribs = args
+      attribs.val3 = attribs.val3 or 3
+      attribs.val4 = 4
+      return attribs
+    end
+    local obj1 = Class2{ val1=11 }
+    assert.are.equals( 11, obj1.val1 )
+    assert.are.equals( 2, obj1.val2 )
+    assert.are.equals( 3, obj1.val3 )
+    assert.are.equals( 4, obj1.val4 )
+    local obj2 = Class2{ val3=33 }
+    assert.are.equals( 1, obj2.val1 )
+    assert.are.equals( 33, obj2.val3 )
+    local obj3 = Class2{ val1=11,val3=33 }
+    assert.are.equals( 11, obj3.val1 )
+    assert.are.equals( 33, obj3.val3 )
+  end)
 end)

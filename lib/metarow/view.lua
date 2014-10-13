@@ -5,7 +5,10 @@ local group = display.newGroup()
 local templateName = "default"
 
 function createRect( params )
-  return {}
+  local rect = display.newRect(
+    params.x, params.y, params.width, params.height
+  )
+  return rect
 end
 
 function createButton( params )
@@ -13,9 +16,11 @@ function createButton( params )
 end
 
 function screenWidth( params )
+  return display.contentWidth
 end
 
 function screenHeight( params )
+  return display.contentHeight
 end
 
 function setTemplate( params )
