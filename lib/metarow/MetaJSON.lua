@@ -14,10 +14,6 @@ function MetaJSON:setData( jsonString )
   self.data = json.decode( jsonString or '{ }' )
 end
 
-function MetaJSON:setFun( funTable )
-  self.fun = funTable
-end
-
 function MetaJSON:getMeta( node )
   if node.val then
     return node.val
@@ -28,7 +24,7 @@ function MetaJSON:getMeta( node )
         params[k] = self:getMeta( v )
       end
     end
-    return self.fun[node.fun.name]( params )
+    return self[node.fun.name]( params )
   end
 end
 

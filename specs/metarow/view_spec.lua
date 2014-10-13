@@ -5,9 +5,9 @@ local f = io.open( 'specs/metarow/view_string.json', "r" )
 jsonString = f:read( "*a" )
 
 describe( "basic functions", function( )
-  it( "sets functions", function( )
-    assert.are.equals( "function", type( view.fun.createRect ) )
-    assert.are.equals( "function", type( view.fun.createButton ) )
+  it( "has functions", function( )
+    assert.are.equals( "function", type( view.createRect ) )
+    assert.are.equals( "function", type( view.createButton ) )
   end)
 
   it( "loops through meta definition", function( )

@@ -29,15 +29,13 @@ describe( "basic functions", function ( )
     assert.is_true( type( d.data ) == 'table')
   end)
 
-  it( "holds an array with functions", function( )
+  it( "works with added functions", function( )
     local d = MetaJSON{ json = jsonString }
-    local createRect = function( )
+    d.createRect = function( )
       return 1
     end
-    d:setFun{ createRect = createRect }
-    assert.is_true( type( d.fun ) == 'table' )
-    assert.is_true( type( d.fun['createRect'] ) == 'function' )
-    assert.are.equal( 1, d.fun[d.data[1].fun.name]( ) )
+    assert.is_true( type( d['createRect'] ) == 'function' )
+    assert.are.equal( 1, d[d.data[1].fun.name]( ) )
   end)
 
   it( "handles MetaJSON key val", function( )
@@ -59,14 +57,12 @@ describe( "basic functions", function ( )
         }
       }
     ]] }
-    d:setFun{
-      screenWidth = function( )
-        return 768
-      end,
-      screenHeight = function( )
-        return 1024
-      end
-    }
+    d.screenWidth = function( )
+      return 768
+    end
+    d.screenHeight = function( )
+      return 1024
+    end
     local params = d:getParams( d.data )
     assert.are.equal( 2, params.strokeWidth )
     assert.are.equal( 768, params.width)
@@ -74,17 +70,15 @@ describe( "basic functions", function ( )
 
   it( "handles MetaJSON key fun", function( )
     local d = MetaJSON{ json = jsonString }
-    d:setFun{
-      createRect = function( params )
-        return params.x
-      end,
-      screenWidth = function( )
-        return 768
-      end,
-      screenHeight = function( )
-        return 1024
-      end
-    }
-    assert.are.equal( 0, d:getMeta( d.data[1]) )
+    d.createRect = function( params )
+      return params.width
+    end
+    d.screenWidth = function( )
+      return 768
+    end
+    d.screenHeight = function( )
+      return 1024
+    end
+    assert.are.equal( 768, d:getMeta( d.data[1] ) )
   end)
 end)
