@@ -18,6 +18,20 @@ local jsonString = [[
         "fillColor" : { "val" : [0.5,0.5,0.5] }
       }
     }
+  },
+  {
+    "fun" : {
+      "name" : "createRect",
+      "params" : {
+        "x" : { "calc" : [ "screenWidth()", 2, "div()" ] },
+        "y" : { "calc" : [ "screenHeight()", 2, "div()" ] },
+        "anchorX" : { "val" : 0.5 },
+        "anchorY" : { "val" : 0.5 },
+        "width" :  { "val" : 250 },
+        "height" : { "val" : 70 },
+        "fillColor" : { "val" : [0.7, 0.5, 0.3] }
+      }
+    }
   }
 ]
 ]]

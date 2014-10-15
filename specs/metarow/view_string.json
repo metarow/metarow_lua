@@ -17,8 +17,8 @@
     "fun" : {
       "name" : "createRect",
       "params" : {
-        "x" : { "val" : 100 },
-        "y" : { "val" : 100 },
+        "x" : { "calc" : [ "screenWidth()", 2, "div()" ] },
+        "y" : { "calc" : [ "screenHeight()", 2, "div()" ] },
         "anchorX" : { "val" : 0.5 },
         "anchorY" : { "val" : 0.5 },
         "width" :  { "val" : 50 },
