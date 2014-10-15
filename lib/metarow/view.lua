@@ -9,12 +9,16 @@ function view.createRect( params )
     params.x, params.y, params.width, params.height
   )
   rect:setFillColor( unpack( params.fillColor or { } ) or 1 )
+  rect.anchorX = params.anchorX
+  rect.anchorY = params.anchorY
   return rect
 end
 
 function view.createText( params )
   local text = display.newText( params )
   text:setFillColor( unpack( params.fillColor or { } ) or 1 )
+  text.anchorX = params.anchorX
+  text.anchorY = params.anchorY
   return text
 end
 
