@@ -1,37 +1,29 @@
 --spec_helper.lua
 inspect = require"inspect"
 
-local lfs = require"lfs"
-
-function folderExists(strFolderName)
-  if lfs.attributes(strFolderName:gsub("\\$",""),"mode") == "directory" then
-    return true
-  else
-    return false
-  end
-end
-
-system = {}
-system.pathForFile = function( file, path )
-  local pathSource = path .. "/" .. file
-  local isDocument = string.find( path, system.DocumentsDirectory )
-  if isDocument or io.open( pathSource, "r" ) then
-    return pathSource
-  else
-    return nil
-  end
-end
-system.getInfo = function( propertyName )
-  local properties = {
-    appName = "MetaRow",
-    environment = "test"
+setModel = function( model )
+  local device = {
+    iphone={
+      width=320,
+      height=480
+    },
+    ipad={
+      width=768,
+      height=1024
+    },
   }
-  return properties[propertyName]
-end
-system.DocumentsDirectory = "/tmp/" .. system.getInfo( "appName" ) .. "/Documents"
-system.ResourceDirectory = lfs.currentdir()
-
-if not folderExists( system.DocumentsDirectory ) then
-  os.execute( "mkdir -p " .. system.DocumentsDirectory )
+  local pixelWidth = device[model].width
+  local pixelHeight = device[model].height
+  return pixelWidth, pixelHeight
 end
 
+Object = require"specs._mocks.lib.Object"
+EventListener = require"specs._mocks.lib.EventListener"
+DisplayObject = require"specs._mocks.lib.DisplayObject"
+GroupObject = require"specs._mocks.lib.GroupObject"
+StageObject = require"specs._mocks.lib.StageObject"
+ShapeObject = require"specs._mocks.lib.ShapeObject"
+TextObject = require"specs._mocks.lib.TextObject"
+
+require"specs._mocks.lib.system"
+require"specs._mocks.lib.display"

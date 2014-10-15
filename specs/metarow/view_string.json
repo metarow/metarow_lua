@@ -1,0 +1,63 @@
+[
+  {
+    "fun" : {
+      "name" : "createRect",
+      "params" : {
+        "x" : { "val" : 0 },
+        "y" : { "val" : 0 },
+        "anchorX" : { "val" : 0 },
+        "anchorY" : { "val" : 0 },
+        "width" :  { "fun" : { "name":"screenWidth" }},
+        "height" : { "fun" : { "name":"screenHeight" }},
+        "fillColor" : { "val" : [0.5,0.5,0.5] }
+      }
+    }
+  },
+  {
+    "fun" : {
+      "name" : "createRect",
+      "params" : {
+        "x" : { "val" : 100 },
+        "y" : { "val" : 100 },
+        "anchorX" : { "val" : 0.5 },
+        "anchorY" : { "val" : 0.5 },
+        "width" :  { "val" : 50 },
+        "height" : { "val" : 50 },
+        "fillColor" : { "val" : [0.8,0.5,0] },
+        "strokeColor" : { "val" : [1,1,1] },
+        "strokeWidth" : { "val" : 4 }
+      }
+    }
+  },
+  {
+    "fun" : {
+      "name" : "createButton",
+      "params" : {
+        "left" : { "val" : 50 },
+        "top" : { "val" : 200 },
+        "width" : { "val" : 200 },
+        "height" : { "val" : 40 },
+        "id" : { "val" : "button1" },
+        "label" : { "val" : "Default" },
+        "labelColor" : { "val" : {
+          "default" : [ 1, 1, 1 ],
+          "over" : [ 0, 0, 0, 0.5 ] }
+        },
+        "labelYOffset" : { "val" : -4 },
+        "shape" : { "val" : "rect" },
+        "fillColor" : { "val" : {
+          "default" : [ 1, 0.2, 0.5, 0.7 ],
+          "over" : [ 1, 0.2, 0.5, 1 ] }
+        }
+      }
+    }
+  },
+  {
+    "fun" : {
+      "name" :"setTemplate",
+      "params" : {
+        "template" : { "val" : "inventory"}
+      }
+    }
+  }
+]

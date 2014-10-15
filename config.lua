@@ -1,10 +1,10 @@
 application = {
 	content = {
 		width = 320,
-		height = 480, 
-		scale = "letterBox",
+		height = 320 * display.pixelHeight / display.pixelWidth,
+		scale = "letterbox",
 		fps = 30,
-		
+
 		--[[
         imageSuffix = {
 		    ["@2x"] = 2,
@@ -25,5 +25,5 @@ application = {
             }
         }
     }
-    --]]    
+    --]]
 }

@@ -1,0 +1,22 @@
+require"specs.spec_helper"
+local simple = require"lib.loop.simple"
+
+describe( "basic functions", function( )
+  it( "creates instances", function( )
+    local grp = GroupObject( )
+    assert.is_not_nil( grp )
+    assert.is_true( simple.instanceof( grp, GroupObject ) )
+    assert.is_true( simple.subclassof( GroupObject, DisplayObject ) )
+  end)
+  it( "holds a list of objects", function( )
+    local grp = GroupObject( )
+    assert.are.equals( 0, grp.numChildren )
+  end)
+  it( "inserts an object into a group", function( )
+    local grp = GroupObject( )
+    local obj = DisplayObject( )
+    grp:insert( obj )
+    assert.are.equals( 1, grp.numChildren )
+    assert.are.equals( obj, grp.__items[1] )
+  end)
+end)
