@@ -23,6 +23,7 @@ DisplayObject = require"specs._mocks.lib.DisplayObject"
 GroupObject = require"specs._mocks.lib.GroupObject"
 StageObject = require"specs._mocks.lib.StageObject"
 ShapeObject = require"specs._mocks.lib.ShapeObject"
+TextObject = require"specs._mocks.lib.TextObject"
 
 require"specs._mocks.lib.system"
 require"specs._mocks.lib.display"

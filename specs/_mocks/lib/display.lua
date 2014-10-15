@@ -43,6 +43,15 @@ function display.newRect( arg1, arg2, arg3, arg4, arg5 )
   return rect
 end
 
+function display.newText( args )
+  local origin = 0.5
+  args.anchorX = origin
+  args.anchorY = origin
+  local text = TextObject( args )
+  display.currentStage:insert( text )
+  return text
+end
+
 function display.cleanStage( )
   display.currentStage = StageObject( )
 end

@@ -32,4 +32,19 @@ describe( "basic functions", function( )
     assert.are.equals( 1, group.numChildren )
     assert.are.equals( 1, display.currentStage.numChildren )
   end)
+  it( "can draw text objects on current stage", function( )
+    local options = {
+      text = "Hello world!",
+      x = 100,
+      y = 200,
+      font = "Arial",
+      fontSize = 32,
+    }
+    local text = display.newText( options )
+    assert.are.equals( "Hello world!", text.text )
+    assert.are.equals( 100, text.x )
+    assert.are.equals( "Arial", text.font )
+    assert.are.equals( 32, text.size )
+    assert.are.equals( 1, display.currentStage.numChildren )
+  end)
 end)

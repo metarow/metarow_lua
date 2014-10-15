@@ -8,7 +8,14 @@ function view.createRect( params )
   local rect = display.newRect(
     params.x, params.y, params.width, params.height
   )
+  rect:setFillColor( unpack( params.fillColor or { } ) or 1 )
   return rect
+end
+
+function view.createText( params )
+  local text = display.newText( params )
+  text:setFillColor( unpack( params.fillColor or { } ) or 1 )
+  return text
 end
 
 function view.createButton( params )

@@ -8,6 +8,7 @@ describe( "basic functions", function( )
   it( "has functions", function( )
     assert.are.equals( "function", type( view.createRect ) )
     assert.are.equals( "function", type( view.createButton ) )
+    assert.are.equals( "function", type( view.createText ) )
   end)
 
   it( "loops through meta definition", function( )

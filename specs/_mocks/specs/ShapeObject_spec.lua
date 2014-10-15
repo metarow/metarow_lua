@@ -1,7 +1,6 @@
 require"specs.spec_helper"
 local simple = require"lib.loop.simple"
 
-
 describe( "basic functions", function( )
   it( "creates instances", function( )
     local object = ShapeObject( )
@@ -9,6 +8,7 @@ describe( "basic functions", function( )
     assert.is_true( simple.instanceof( object, ShapeObject ) )
     assert.is_true( simple.subclassof( ShapeObject, DisplayObject ) )
   end)
+
   it( "sets the fill color", function( )
     local obj1 = ShapeObject( )
     obj1:setFillColor( 0.5 )
