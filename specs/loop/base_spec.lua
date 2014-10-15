@@ -23,11 +23,19 @@ describe( "basic functions", function( )
 
   it( "can instantiate through __init", function( )
     local Class = base.class( )
-    function Class:__init( val )
-      return base.rawnew( self, { val = val } )
+    function Class:__init( args )
+      args = args or { }
+      local attribs = { }
+      attribs.val1 = args.val1 or 5
+      attribs.val2 = args.val2 or 20
+      return attribs
     end
-    local object = Class( 10 )
-    assert.are.equals( 10, object.val )
+    local obj1 = Class{ val1=10 }
+    assert.are.equals( 10, obj1.val1 )
+    assert.are.equals( 20, obj1.val2 )
+    local obj2 = Class{ val1=10, val2=30 }
+    assert.are.equals( 10, obj2.val1 )
+    assert.are.equals( 30, obj2.val2 )
   end)
 
   it( "provides functions as members", function( )

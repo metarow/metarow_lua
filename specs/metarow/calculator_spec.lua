@@ -1,0 +1,31 @@
+local calc = require"lib.metarow.calculator"
+
+describe( "calculation functions", function( )
+  it( "can add two parameter from stack", function( )
+    calc:push( 10 )
+    calc:push( 20 )
+    calc:add( )
+    assert.are.equals( 30, calc:pop( ) )
+  end)
+
+  it( "can subtract two parameter from stack", function( )
+    calc:push( 30 )
+    calc:push( 20 )
+    calc:sub( )
+    assert.are.equals( 10, calc:pop( ) )
+  end)
+
+  it( "can multiplicate two parameter from stack", function( )
+    calc:push( 2.3 )
+    calc:push( 10 )
+    calc:mul( )
+    assert.are.equals( 23, calc:pop( ) )
+  end)
+
+  it( "can divide two parameter from stack", function( )
+    calc:push( 23 )
+    calc:push( 10 )
+    calc:div( )
+    assert.are.equals( 2.3, calc:pop( ) )
+  end)
+end)
