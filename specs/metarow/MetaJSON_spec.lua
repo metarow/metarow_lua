@@ -89,39 +89,28 @@ describe( "calculation functions", function( )
     assert.is_true( d.isCall( "add()" ) )
   end)
 
-  it( "handles MetaJSON key calc with add", function( )
+  it( "handles MetaJSON key calc", function( )
     local d = MetaJSON{ json = [[
       {
-        "calc" : [10, 20, "add()"]
+        "calc" : [ 5, 10, "add()", 7, 2, "sub()", "div()" ]
       }
     ]] }
-    assert.are.equals( 30, d:getMeta( d.data ) )
+    assert.are.equals( 3, d:getMeta( d.data ) )
   end)
 
-  it( "handles MetaJSON key calc with sub", function( )
+  it( "works with extra calculation functions", function( )
     local d = MetaJSON{ json = [[
       {
-        "calc" : [30, 20, "sub()"]
+        "calc" : [ "screenHeight()", 2, "div()" ]
       }
     ]] }
-    assert.are.equals( 10, d:getMeta( d.data ) )
-  end)
-
-  it( "handles MetaJSON key calc with mul", function( )
-    local d = MetaJSON{ json = [[
-      {
-        "calc" : [2.3, 10, "mul()"]
-      }
-    ]] }
-    assert.are.equals( 23, d:getMeta( d.data ) )
-  end)
-
-  it( "handles MetaJSON key calc with div", function( )
-    local d = MetaJSON{ json = [[
-      {
-        "calc" : [23, 10, "div()"]
-      }
-    ]] }
-    assert.are.equals( 2.3, d:getMeta( d.data ) )
+    function d.screenHeight( )
+      return 1024
+    end
+    function d.calc:screenHeight( )
+      self:push( d.screenHeight( ) )
+      return
+    end
+    assert.are.equals( d.screenHeight( ) / 2, d:getMeta( d.data ) )
   end)
 end)

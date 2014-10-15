@@ -1,32 +1,4 @@
-local Stack = require"lib.metarow.Stack"
-
-local calc = Stack( )
-
-function calc.add( stack )
-  local b, a = stack:pop( 2 )
-  stack:push( a + b )
-  return
-end
-
-function calc.sub( stack )
-  local b, a = stack:pop( 2 )
-  stack:push( a - b )
-  return
-end
-
-function calc.mul( stack )
-  local b, a = stack:pop( 2 )
-  stack:push( a * b )
-  return
-end
-
-function calc.div( stack )
-  local b, a = stack:pop( 2 )
-  stack:push( a / b )
-  return
-end
-
---TODO add the rest of arithmetic
+local calc = require"lib.metarow.calculator"
 
 local oo = require 'lib.loop.base'
 local MetaJSON = oo.class( )
@@ -35,7 +7,6 @@ function MetaJSON.isCall( value )
   return value:sub( -2, -1 ) == "()"
 end
 
-
 local json = require "json"
 
 function MetaJSON:__init( args )
@@ -43,7 +14,6 @@ function MetaJSON:__init( args )
   local attribs = { }
   attribs.data = json.decode( args.json or '{ }' )
   attribs.calc = calc
-  --attribs.calc.add = add
   return attribs
 end
 
