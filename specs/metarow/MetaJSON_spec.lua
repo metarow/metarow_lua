@@ -88,12 +88,40 @@ describe( "calculation functions", function( )
     local d = MetaJSON
     assert.is_true( d.isCall( "add()" ) )
   end)
-  it( "handles MetaJSON key calc", function( )
+
+  it( "handles MetaJSON key calc with add", function( )
     local d = MetaJSON{ json = [[
       {
         "calc" : [10, 20, "add()"]
       }
     ]] }
-    assert.are.equals( 30, d:getMeta( d.data ))
+    assert.are.equals( 30, d:getMeta( d.data ) )
+  end)
+
+  it( "handles MetaJSON key calc with sub", function( )
+    local d = MetaJSON{ json = [[
+      {
+        "calc" : [30, 20, "sub()"]
+      }
+    ]] }
+    assert.are.equals( 10, d:getMeta( d.data ) )
+  end)
+
+  it( "handles MetaJSON key calc with mul", function( )
+    local d = MetaJSON{ json = [[
+      {
+        "calc" : [2.3, 10, "mul()"]
+      }
+    ]] }
+    assert.are.equals( 23, d:getMeta( d.data ) )
+  end)
+
+  it( "handles MetaJSON key calc with div", function( )
+    local d = MetaJSON{ json = [[
+      {
+        "calc" : [23, 10, "div()"]
+      }
+    ]] }
+    assert.are.equals( 2.3, d:getMeta( d.data ) )
   end)
 end)

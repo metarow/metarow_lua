@@ -1,5 +1,33 @@
 local Stack = require"lib.metarow.Stack"
 
+local calc = Stack( )
+
+function calc.add( stack )
+  local b, a = stack:pop( 2 )
+  stack:push( a + b )
+  return
+end
+
+function calc.sub( stack )
+  local b, a = stack:pop( 2 )
+  stack:push( a - b )
+  return
+end
+
+function calc.mul( stack )
+  local b, a = stack:pop( 2 )
+  stack:push( a * b )
+  return
+end
+
+function calc.div( stack )
+  local b, a = stack:pop( 2 )
+  stack:push( a / b )
+  return
+end
+
+--TODO add the rest of arithmetic
+
 local oo = require 'lib.loop.base'
 local MetaJSON = oo.class( )
 
@@ -7,11 +35,6 @@ function MetaJSON.isCall( value )
   return value:sub( -2, -1 ) == "()"
 end
 
-function add( a, b )
-  return a + b
-end
-
---TODO add the rest of arithmetic
 
 local json = require "json"
 
@@ -19,8 +42,8 @@ function MetaJSON:__init( args )
   args = args or { }
   local attribs = { }
   attribs.data = json.decode( args.json or '{ }' )
-  attribs.calc = Stack( )
-  attribs.calc.add = { fun=add, par=2 }
+  attribs.calc = calc
+  --attribs.calc.add = add
   return attribs
 end
 
@@ -41,15 +64,10 @@ function MetaJSON:getMeta( node )
     return self[node.fun.name]( params )
   elseif node.calc then
     local entries = node.calc
-    local params = { }
     for _, entry in ipairs( entries ) do
       if type( entry ) == "string" and MetaJSON.isCall( entry ) then
         entry = entry:sub( 1, -3 )
-        for i = self.calc[entry].par, 1, -1 do
-          params[i] = self.calc:pop( )
-        end
-        self.calc:push( self.calc[entry].fun( unpack( params ) ) )
-        params = { }
+        self.calc[entry]( self.calc )
       else
         self.calc:push( entry )
       end
