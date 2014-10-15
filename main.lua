@@ -15,7 +15,7 @@ local jsonString = [[
         "anchorY" : { "val" : 0 },
         "width" :  { "fun" : { "name":"screenWidth" }},
         "height" : { "fun" : { "name":"screenHeight" }},
-        "fillColor" : { "val" : [0.5,0.5,0.5] }
+        "fillColor" : { "val" : [0.6] }
       }
     }
   },
@@ -30,6 +30,20 @@ local jsonString = [[
         "width" :  { "val" : 250 },
         "height" : { "val" : 70 },
         "fillColor" : { "val" : [0.7, 0.5, 0.3] }
+      }
+    }
+  },
+  {
+    "fun" : {
+      "name" : "createText",
+      "params" : {
+        "text" : { "val" : "Hello world!" },
+        "x" : { "calc" : [ "screenWidth()", 2, "div()" ] },
+        "y" : { "calc" : [ "screenHeight()", 2, "div()" ] },
+        "anchorX" : { "val" : 0.5 },
+        "anchorY" : { "val" : 0.5 },
+        "fillColor" : { "val" : [0.9] },
+        "fontSize" : { "val" : 32 }
       }
     }
   }
