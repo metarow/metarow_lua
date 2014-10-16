@@ -7,9 +7,13 @@ describe( "basic functions", function( )
   end)
 
   it( "defines directory constants", function( )
-    assert.are.equals( "/tmp/MetaRow/Documents", system.DocumentsDirectory )
-    assert.are.equals( "/tmp/MetaRow/tmp", system.TemporaryDirectory )
-    assert.are.equals( "/Volumes/HDD/Code/metarow_lua", system.ResourceDirectory )
+    assert.are.equals( lfs.currentdir(), system.ResourceDirectory )
+    assert.are.equals(
+      lfs.currentdir() .. "/test/Documents", system.DocumentsDirectory
+    )
+    assert.are.equals(
+      lfs.currentdir() .. "/test/tmp", system.TemporaryDirectory
+    )
   end)
 
   it( "generates an absolute path", function( )

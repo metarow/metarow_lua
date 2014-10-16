@@ -18,9 +18,9 @@ system.getInfo = function( propertyName )
   return properties[propertyName]
 end
 
-system.DocumentsDirectory = "/tmp/" .. system.getInfo( "appName" ) .. "/Documents"
-system.TemporaryDirectory = "/tmp/" .. system.getInfo( "appName" ) .. "/tmp"
 system.ResourceDirectory = lfs.currentdir()
+system.DocumentsDirectory = system.ResourceDirectory .. "/test/Documents"
+system.TemporaryDirectory = system.ResourceDirectory .. "/test/tmp"
 
 system.pathForFile = function( file, base )
   local path = base or system.ResourceDirectory
