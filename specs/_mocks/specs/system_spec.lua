@@ -7,28 +7,34 @@ describe( "basic functions", function( )
   end)
 
   it( "defines directory constants", function( )
-    assert.are.equals( lfs.currentdir(), system.ResourceDirectory )
+    assert.are.equals( lfs.currentdir(), system.ResourceDirectory[1] )
     assert.are.equals(
-      lfs.currentdir() .. "/test/Documents", system.DocumentsDirectory
+      lfs.currentdir() .. "/test/Documents", system.DocumentsDirectory[1]
     )
     assert.are.equals(
-      lfs.currentdir() .. "/test/tmp", system.TemporaryDirectory
+      lfs.currentdir() .. "/test/tmp", system.TemporaryDirectory[1]
     )
   end)
 
-  it( "generates an absolute path", function( )
-    local absolutePath = system.ResourceDirectory .. "/data/inventory.sqlite"
+  it( "returns directory constant for no file", function( )
     assert.are.equals(
-      absolutePath,
+      system.ResourceDirectory[1],
+      system.pathForFile( nil, system.ResourceDirectory )
+    )
+  end)
+
+  it( "generates a path to file", function( )
+    assert.are.equals(
+      system.ResourceDirectory[1] .. "/data/inventory.sqlite",
       system.pathForFile( "data/inventory.sqlite", system.ResourceDirectory )
     )
     assert.are.equals(
-      absolutePath, system.pathForFile( "data/inventory.sqlite" )
+      system.ResourceDirectory[1] .. "/data/inventory.sqlite",
+      system.pathForFile( "data/inventory.sqlite" )
     )
     assert.is_nil( system.pathForFile( "data/order.sqlite" ) )
-    absolutePath = system.DocumentsDirectory .. "/inventory.sqlite"
     assert.are.equals(
-      absolutePath,
+      system.DocumentsDirectory[1] .. "/inventory.sqlite",
       system.pathForFile( "inventory.sqlite", system.DocumentsDirectory )
     )
   end)
