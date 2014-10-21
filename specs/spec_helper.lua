@@ -27,3 +27,5 @@ TextObject = require"specs._mocks.lib.TextObject"
 
 require"specs._mocks.lib.system"
 require"specs._mocks.lib.display"
+
+package.path = './specs/_mocks/lib/?.lua;' .. package.path

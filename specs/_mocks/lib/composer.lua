@@ -1,4 +1,4 @@
-composer = { }
+local composer = { }
 
 function composer.gotoScene( )
 end

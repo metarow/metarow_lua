@@ -81,7 +81,10 @@ describe( "basic functions", function( )
   end)
 end)
 
+
 describe( "works with view an object", function( )
+  local composer = require"composer"
+
   it( "init a view creator", function( )
     local root = MetaMan( )
     assert.is_not_nil( root.view )

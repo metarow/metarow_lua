@@ -12,13 +12,11 @@ function copy( resource, document )
   io.close( outFile )
 end
 
-local composer, sqlite3
+local sqlite3
 if system.getInfo"environment" == 'test' then
   sqlite3 = require "lsqlite3"
-  composer = require"specs._mocks.lib.composer"
 else
   sqlite3 = require "sqlite3"
-  composer = require"composer"
 end
 
 local json = require "json"
@@ -128,6 +126,7 @@ function MetaMan:getScreenName( viewName )
 end
 
 function MetaMan:gotoScreen( viewName )
+  local composer = require"composer"
   local options = {
       effect = "fade",
       time = 800,
