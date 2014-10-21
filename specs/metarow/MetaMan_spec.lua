@@ -146,13 +146,12 @@ describe( "works with controller an object", function( )
     local root = MetaMan( )
     assert.is_true( type( root.call ) == "function" )
     root.handle:exec( createMetaTableString )
-    sql = ([[
+    local sql = ([[
       INSERT INTO _MetaRow (type, key, value)
       VALUES ( 'controller', 'index', '%s');
     ]]):format( controllerString )
     root.handle:exec( sql )
-    local json = root:getDefinition( 'controller', 'index')
-    print(json)
+
     local f1 = spy.on( root.controller, "setData" )
     local f2 = spy.on( root, "getDefinition" )
     local f3 = spy.on( root, "gotoScreen" )
