@@ -6,9 +6,9 @@ jsonString = f:read( "*a" )
 
 describe( "basic functions", function( )
   it( "has functions", function( )
-    assert.are.equals( "function", type( view.createRect ) )
-    assert.are.equals( "function", type( view.createButton ) )
-    assert.are.equals( "function", type( view.createText ) )
+    assert.is_true( type( view.createRect ) == "function" )
+    assert.is_true( type( view.createButton ) == "function" )
+    assert.is_true( type( view.createText ) == "function" )
   end)
 
   it( "loops through meta definition", function( )

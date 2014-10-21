@@ -36,12 +36,10 @@ end
 
 function view.calc:screenWidth( )
   self:push( view.screenWidth( ) )
-  return
 end
 
 function view.calc:screenHeight( )
   self:push( view.screenHeight( ) )
-  return
 end
 
 function view.setTemplate( params )
