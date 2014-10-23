@@ -7,7 +7,7 @@ local base = require"lib.loop.base"
 local MetaMan = require"lib.metarow.MetaMan"
 local MetaJSON = require"lib.metarow.MetaJSON"
 
-local solutionName = "inventory"
+local solutionName = metarow.defaultSolution
 local resourcePath = system.pathForFile(
   "data/" .. solutionName .. ".sqlite", system.ResourceDirectory
 )
@@ -53,7 +53,7 @@ describe( "basic functions", function( )
   end)
 
   it( "updates the meta table for higher system version", function( )
-    local solutionName = "inventory"
+    local solutionName = metarow.defaultSolution
     local handle_res = sqlite3.open( resourcePath )
     local version_res = MetaMan.getVersion( handle_res )
     local handle_doc = sqlite3.open( documentPath )

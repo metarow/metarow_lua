@@ -1,6 +1,8 @@
+-- include metarow defaults
+metarow = require"metarow"
+
 local MetaMan = require"lib.metarow.MetaMan"
 
-local solutionName = "inventory"
-local root = MetaMan{ solutionName=solutionName }
+local root = MetaMan{ solutionName=metarow.defaultSolution }
 
 root:call( 'index' )
