@@ -3,7 +3,6 @@
 -- Controls a solution formed with MetaJSON embedded in the table _MetaRow
 -- @classmod MetaMan
 -- @author Fritz-Rainer Doebbelin <frd@doebbelin.net>
-
 function copy( resource, document )
   local inFile = io.open( resource, "r" )
   local outFile  = io.open( document, "w" )
@@ -13,10 +12,11 @@ function copy( resource, document )
   io.close( outFile )
 end
 
-if system.getInfo"environment" =='test' then
-  local sqlite3 = require "lsqlite3"
+local sqlite3
+if system.getInfo"environment" == 'test' then
+  sqlite3 = require "lsqlite3"
 else
-  local sqlite3 = require "sqlite3"
+  sqlite3 = require "sqlite3"
 end
 
 local json = require "json"
@@ -62,7 +62,13 @@ function MetaMan:__init( args )
   end
 
   attribs.view = require"lib.metarow.view"
+  attribs.activeViews = { }
+  attribs.freeScreens = self:allScreens( )
 
+  attribs.controller = require"lib.metarow.controller"
+
+  attribs.template = require"lib.metarow.template"
+  attribs.activeTemplate = { }
   return attribs
 end
 
@@ -98,6 +104,51 @@ function MetaMan:getDefinition( type, key )
     definition =  values[1]
   end)
   return definition
+end
+
+function MetaMan:allScreens( )
+  local screens = { }
+  local path = system.pathForFile( nil, system.ResourceDirectory ) .. "/screens"
+  for screen in lfs.dir( path ) do
+    if screen:sub(-4) == ".lua" then
+      screens[#screens+1] = "screens." .. screen:sub( 1, -5 )
+    end
+  end
+  return screens
+end
+
+function MetaMan:getFreeScreen( )
+  --TODO if no free screens call purgeScreens
+  return table.remove( self.freeScreens, 1 )
+end
+
+function MetaMan:getScreenName( viewName )
+  local screenName
+  if self.activeViews[viewName] then
+    screenName = self.activeViews[viewName].screenName
+  else
+    screenName = self:getFreeScreen( )
+  end
+  return screenName
+end
+
+function MetaMan:gotoScreen( viewName )
+  local composer = require"composer"
+  local options = {
+      effect = "fade",
+      time = 500,
+      params = {
+        root = self,
+        type = 'view',
+        key = viewName
+      }
+  }
+  composer.gotoScene( self:getScreenName( viewName ), options )
+end
+
+function MetaMan:call( action )
+  self.controller:setData( self:getDefinition( 'controller', action ) )
+  self:gotoScreen( self.controller:exec( ) )
 end
 
 return MetaMan

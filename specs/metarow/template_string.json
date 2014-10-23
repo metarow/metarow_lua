@@ -1,0 +1,14 @@
+[
+  {
+    "fun" : {
+      "name" : "createTabBar",
+      "params" : {
+        "buttons" : { "val" : [
+            { "id" : "english", "label" : "english" },
+            { "id" : "deutsch", "label" : "deutsch" }
+          ]
+        }
+      }
+    }
+  }
+]

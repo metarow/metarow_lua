@@ -1,0 +1,10 @@
+[
+  {
+    "fun" : {
+      "name" :"display",
+      "params" : {
+        "view" : { "val" : "index" }
+      }
+    }
+  }
+]
