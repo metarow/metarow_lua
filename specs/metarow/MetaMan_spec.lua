@@ -82,7 +82,7 @@ describe( "basic functions", function( )
 end)
 
 
-describe( "works with view an object", function( )
+describe( "works with a view object", function( )
   local composer = require"composer"
 
   it( "init a view creator", function( )
@@ -138,7 +138,7 @@ describe( "works with view an object", function( )
   end)
 end)
 
-describe( "works with controller an object", function( )
+describe( "works with a controller object", function( )
   it( "init a controller creator", function( )
     local root = MetaMan( )
     assert.is_not_nil( root.controller )
@@ -168,3 +168,12 @@ describe( "works with controller an object", function( )
 
   end)
 end)
+
+describe( "works with a template object", function( )
+  it( "init a template creator", function( )
+    local root = MetaMan( )
+    assert.is_not_nil( root.template )
+    assert.is_true( base.instanceof( root.template, MetaJSON ))
+  end)
+end)
+

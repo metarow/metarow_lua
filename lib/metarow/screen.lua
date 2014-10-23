@@ -10,9 +10,11 @@ function screen.loadScene( screenName, event )
     root:getDefinition( type, key )
   )
   local group, templateName = root.view:exec( )
-  if root.activeTemplate ~= templateName then
+  if root.activeTemplate.name ~= templateName then
     --TODO remove old and display new template
-    root.activeTemplate = templateName
+    root.activeTemplate.name = templateName
+    root.template:setData( root:getDefinition( 'template', templateName ) )
+    root.activeTemplate.group = root.template:exec( )
   end
   return group
 end

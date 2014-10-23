@@ -71,7 +71,7 @@ describe( "basic functions", function ( )
   it( "handles MetaJSON key fun", function( )
     local d = MetaJSON{ json = jsonString }
     d.createRect = function( params )
-      return params.width
+      return params
     end
     d.screenWidth = function( )
       return 768
@@ -79,7 +79,17 @@ describe( "basic functions", function ( )
     d.screenHeight = function( )
       return 1024
     end
-    assert.are.equals( 768, d:getMeta( d.data[1] ) )
+    d.tabBarHeight = function( )
+      return 52
+    end
+    function d.calc:screenHeight( )
+      self:push( d.screenHeight( ) )
+    end
+    function d.calc:tabBarHeight( )
+      self:push( d.tabBarHeight( ) )
+    end
+    assert.are.equals( 768, d:getMeta( d.data[1] ).width )
+    assert.are.equals( 1024-52, d:getMeta( d.data[1] ).height )
   end)
 end)
 

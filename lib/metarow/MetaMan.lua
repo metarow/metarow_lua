@@ -67,6 +67,8 @@ function MetaMan:__init( args )
 
   attribs.controller = require"lib.metarow.controller"
 
+  attribs.template = require"lib.metarow.template"
+  attribs.activeTemplate = { }
   return attribs
 end
 
@@ -121,7 +123,12 @@ function MetaMan:getFreeScreen( )
 end
 
 function MetaMan:getScreenName( viewName )
-  local screenName = self.activeViews[viewName] or self:getFreeScreen( )
+  local screenName
+  if self.activeViews[viewName] then
+    screenName = self.activeViews[viewName].screenName
+  else
+    screenName = self:getFreeScreen( )
+  end
   return screenName
 end
 
@@ -129,7 +136,7 @@ function MetaMan:gotoScreen( viewName )
   local composer = require"composer"
   local options = {
       effect = "fade",
-      time = 800,
+      time = 500,
       params = {
         root = self,
         type = 'view',

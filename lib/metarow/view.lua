@@ -30,8 +30,12 @@ function view.screenWidth( params )
   return display.contentWidth
 end
 
-function view.screenHeight( params )
+function view.screenHeight( )
   return display.contentHeight
+end
+
+function view.tabBarHeight( )
+  return metarow.tabBar.height
 end
 
 function view.calc:screenWidth( )
@@ -42,11 +46,16 @@ function view.calc:screenHeight( )
   self:push( view.screenHeight( ) )
 end
 
+function view.calc:tabBarHeight( )
+  self:push( view.tabBarHeight( ) )
+end
+
 function view.setTemplate( params )
   templateName = params.template
 end
 
 function view:exec(  )
+  local group = display.newGroup()
   for i, element in ipairs( self.data ) do
     local object = self:getMeta( element )
     if object then group:insert( object ) end

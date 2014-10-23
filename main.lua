@@ -3,6 +3,6 @@ metarow = require"metarow"
 
 local MetaMan = require"lib.metarow.MetaMan"
 
-local root = MetaMan{ solutionName=metarow.defaultSolution }
+_root = MetaMan{ solutionName=metarow.defaultSolution }
 
-root:call( 'index' )
+_root:call( 'english' )

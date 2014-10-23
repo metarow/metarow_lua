@@ -1,5 +1,10 @@
 local metarow = {
-  tabBarHeight = 52,
+  tabBar = {
+    height = 52,
+    buttonSize = 16,
+    buttonLabelYOffset = -16
+  },
+
   defaultSolution = "inventory"
 }
 
