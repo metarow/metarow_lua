@@ -1,3 +1,9 @@
+--- Template Module.
+-- defines the available template functions
+-- inherit from MetaJSON
+-- @module template
+-- @author Fritz-Rainer Doebbelin <frd@doebbelin.net>
+
 local MetaJSON = require"lib.metarow.MetaJSON"
 
 local widget = require"widget"
@@ -6,10 +12,16 @@ local template = MetaJSON( )
 
 local group = display.newGroup()
 
+--- event handler for button clicks
+-- call a controller action
+-- @return nothing
 local function handleTabBarEvent( event )
   _root:call( event.target._id )
 end
 
+--- create a TabBarWidget
+-- @tparams table params options for the widget
+-- @treturn TabBarWidget
 function template.createTabBar( params )
   local left = 0
   local top = display.contentHeight - metarow.tabBar.height
@@ -29,6 +41,9 @@ function template.createTabBar( params )
   return tabBar
 end
 
+--- execute the template definition
+-- is called by screen.loadScene
+-- @treturn GroupObject with display objects
 function template:exec(  )
   for i, element in ipairs( self.data ) do
     local object = self:getMeta( element )
@@ -36,6 +51,5 @@ function template:exec(  )
   end
   return group
 end
-
 
 return template
