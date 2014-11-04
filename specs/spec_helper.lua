@@ -1,5 +1,5 @@
 --spec_helper.lua
-inspect = require"inspect"
+inspect = require"test.inspect"
 
 -- include metarow defaults
 metarow = require"metarow"

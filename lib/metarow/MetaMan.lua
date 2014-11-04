@@ -72,6 +72,10 @@ function MetaMan:__init( args )
   return attribs
 end
 
+--- get the metarow table version
+-- read the config solution record
+-- @param sqlite handle
+-- @return version
 function MetaMan.getVersion( handle )
   local sql = "SELECT value FROM _MetaRow WHERE type='config' AND key='solution'"
   local version
@@ -81,6 +85,12 @@ function MetaMan.getVersion( handle )
   return version
 end
 
+--- update the metarow table
+-- with new version from resources folder,
+-- it makes possible an update without overwrite user data
+-- @param sqlite handle in ressource folder
+-- @param sqlite handle in document folder
+-- @return nothing
 function MetaMan.updateMetaTable( handle_res, handle_doc )
   local sql_res = "SELECT type, key, value FROM _MetaRow;"
   handle_doc:exec"DELETE FROM _MetaRow;"
@@ -96,6 +106,11 @@ function MetaMan.updateMetaTable( handle_res, handle_doc )
   handle_doc:close( )
 end
 
+--- get a meta definition
+-- JSON string with fun, val and calc keys
+-- @param type of definition record (config, model, view, controller, template)
+-- @param key point to the desired record
+-- @return nothing
 function MetaMan:getDefinition( type, key )
   local definition
   local sql =
@@ -106,6 +121,9 @@ function MetaMan:getDefinition( type, key )
   return definition
 end
 
+--- find all screens
+-- looks in /screens for all lua files
+-- @treturn table with available screens
 function MetaMan:allScreens( )
   local screens = { }
   local path = system.pathForFile( nil, system.ResourceDirectory ) .. "/screens"
@@ -117,11 +135,18 @@ function MetaMan:allScreens( )
   return screens
 end
 
+--- get the next free screen
+-- if no available it should remove the oldest ones
+-- @treturn string name of the screen file
 function MetaMan:getFreeScreen( )
   --TODO if no free screens call purgeScreens
   return table.remove( self.freeScreens, 1 )
 end
 
+--- get the screen name
+-- for the desired view, views lives in screens via scene:create
+-- @tparam string name of the view
+-- @treturn string name of the screen
 function MetaMan:getScreenName( viewName )
   local screenName
   if self.activeViews[viewName] then
@@ -132,6 +157,10 @@ function MetaMan:getScreenName( viewName )
   return screenName
 end
 
+--- display a view
+-- that lives in a screen
+-- @tparam string name of the view
+-- @return nothing
 function MetaMan:gotoScreen( viewName )
   local composer = require"composer"
   local options = {
@@ -146,6 +175,10 @@ function MetaMan:gotoScreen( viewName )
   composer.gotoScene( self:getScreenName( viewName ), options )
 end
 
+--- routes from a controller action to the connected view
+-- loads and executes the controller definition
+-- @tparam string name of the action
+-- @return nothing
 function MetaMan:call( action )
   self.controller:setData( self:getDefinition( 'controller', action ) )
   self:gotoScreen( self.controller:exec( ) )

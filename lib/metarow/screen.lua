@@ -1,5 +1,15 @@
+--- Screen Module.
+-- connect views to screens
+-- @module screen
+-- @author Fritz-Rainer Doebbelin <frd@doebbelin.net>
+
 local screen = { }
 
+--- load a view definition into a free screen
+-- sets also the necessary template
+-- @tparam string screenName name of the used screen
+-- @tparam Event event fired when a scene initialized
+-- @treturn GroupObject with all display objects
 function screen.loadScene( screenName, event )
   local root = event.params.root
   local type = event.params.type

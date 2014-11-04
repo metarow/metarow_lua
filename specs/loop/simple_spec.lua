@@ -1,6 +1,6 @@
 local simple = require"lib.loop.simple"
 local base = require"lib.loop.base"
-local inspect = require"inspect"
+local inspect = require"test.inspect"
 
 describe( "basic functions", function( )
   it( "copies all inherit functions from base", function( )

@@ -12,12 +12,11 @@ local ObjectCache = oo.class( )
 
 ObjectCache.__mode = "k"
 
---- Metametod if access an absent field in the cache.
+--- Metamethod if access an absent field in the cache.
 -- Uses the method retrieve of the instance to retrieve the value requested.
 -- Alternatively, it uses the value of field default as the value requested.
 -- @param key
 -- @return a table that acts as class
-
 function ObjectCache:__index( key )
   if key ~= nil then
     local value = rawget( self, "retrieve" )
