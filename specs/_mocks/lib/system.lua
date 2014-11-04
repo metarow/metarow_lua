@@ -18,25 +18,35 @@ system.getInfo = function( propertyName )
   return properties[propertyName]
 end
 
-system.ResourceDirectory = lfs.currentdir()
-system.DocumentsDirectory = system.ResourceDirectory .. "/test/Documents"
-system.TemporaryDirectory = system.ResourceDirectory .. "/test/tmp"
+-- simulate userdata as table
+system.ResourceDirectory = { lfs.currentdir() }
+system.DocumentsDirectory = { system.ResourceDirectory[1] .. "/test/Documents" }
+system.TemporaryDirectory = { system.ResourceDirectory[1] .. "/test/tmp" }
 
 system.pathForFile = function( file, base )
-  local path = base or system.ResourceDirectory
-  local pathSource = path .. "/" .. file
-  local isDocument = string.find( path, system.DocumentsDirectory )
-  if isDocument or io.open( pathSource, "r" ) then
-    return pathSource
+  if not file then
+    return base[1]
   else
-    return nil
+    local path
+    if base then
+      path = base[1]
+    else
+      path = system.ResourceDirectory[1]
+    end
+    local pathSource = path .. "/" .. file
+    local isDocument = string.find( path, system.DocumentsDirectory[1] )
+    if isDocument or io.open( pathSource, "r" ) then
+      return pathSource
+    else
+      return nil
+    end
   end
 end
 
-if not folderExists( system.DocumentsDirectory ) then
-  os.execute( "mkdir -p " .. system.DocumentsDirectory )
+if not folderExists( system.DocumentsDirectory[1] ) then
+  os.execute( "mkdir -p " .. system.DocumentsDirectory[1] )
 end
 
-if not folderExists( system.TemporaryDirectory ) then
-  os.execute( "mkdir -p " .. system.TemporaryDirectory )
+if not folderExists( system.TemporaryDirectory[1] ) then
+  os.execute( "mkdir -p " .. system.TemporaryDirectory[1] )
 end
