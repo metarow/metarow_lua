@@ -28,6 +28,7 @@ StageObject = require"specs._mocks.lib.StageObject"
 ShapeObject = require"specs._mocks.lib.ShapeObject"
 TextObject = require"specs._mocks.lib.TextObject"
 TabBarWidget = require"specs._mocks.lib.TabBarWidget"
+TableViewWidget = require"specs._mocks.lib.TableViewWidget"
 
 require"specs._mocks.lib.system"
 require"specs._mocks.lib.display"

@@ -4,6 +4,8 @@
 -- @module view
 -- @author Fritz-Rainer Doebbelin <frd@doebbelin.net>
 
+local widget = require"widget"
+
 local MetaJSON = require"lib.metarow.MetaJSON"
 local view = MetaJSON( )
 
@@ -36,6 +38,33 @@ end
 
 function view.createButton( params )
   return {}
+end
+
+local function onRowRender( event )
+  -- body
+end
+
+local function onRowTouch( event )
+  -- body
+end
+
+local function scrollListener( event )
+  -- body
+end
+
+function view.createTableView( params )
+  local tableView = widget.newTableView{
+    id = params.id,
+    left = params.x,
+    top = params.y,
+    width = params.width,
+    height = params.height,
+    noLines = true,
+    onRowRender = onRowRender,
+    onRowTouch = onRowTouch,
+    listener = scrollListener
+  }
+  return tableView
 end
 
 --- get the screen width

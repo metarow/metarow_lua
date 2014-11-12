@@ -3,7 +3,7 @@ require"specs.spec_helper"
 local MetaMan = require"lib.metarow.MetaMan"
 local screen = require"lib.metarow.screen"
 
-local f = io.open( 'specs/metarow/view_string.json', "r" )
+local f = io.open( 'specs/metarow/view_string_01.json', "r" )
 local viewString = f:read( "*a" )
 
 local createMetaTableString = ([[

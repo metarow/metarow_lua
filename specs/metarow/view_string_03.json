@@ -1,0 +1,15 @@
+[
+  {
+    "fun" : {
+      "name" : "createTableView",
+      "params" : {
+        "id" : { "val" : "objects" },
+        "x" : { "val" : 0 },
+        "y" : { "val" : 0 },
+        "width" :  { "fun" : { "name":"screenWidth" }},
+        "height" : { "calc" : [ "screenHeight()", "tabBarHeight()", "sub()" ] },
+        "fillColor" : { "val" : [0.5,0.5,0.5] }
+      }
+    }
+  }
+]

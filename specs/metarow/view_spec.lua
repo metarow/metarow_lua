@@ -1,10 +1,10 @@
 require"specs.spec_helper"
 
 local view = require"lib.metarow.view"
-local f = io.open( 'specs/metarow/view_string.json', "r" )
-jsonString = f:read( "*a" )
 
 describe( "basic functions", function( )
+  local f = io.open( 'specs/metarow/view_string_01.json', "r" )
+  local jsonString = f:read( "*a" )
   it( "has functions", function( )
     assert.is_true( type( view.createRect ) == "function" )
     assert.is_true( type( view.createButton ) == "function" )
@@ -52,4 +52,40 @@ describe( "basic functions", function( )
       group.__items[1].path.height
     )
   end)
+end)
+
+describe( "work with tableViews", function( )
+  local f = io.open( 'specs/metarow/view_string_03.json', "r" )
+  local jsonString = f:read( "*a" )
+
+  it( "has functions", function( )
+    assert.is_true( type( view.createTableView ) == "function" )
+  end)
+
+  it( "maps x and y to left and top", function( )
+    view:setData( jsonString )
+    local group, templateName = view:exec( )
+    assert.are.equals( 0, group.__items[1].left )
+    assert.are.equals( 0, group.__items[1].top )
+  end)
+
+  it( "sets height and width", function( )
+    view:setData( jsonString )
+    local group, templateName = view:exec( )
+    assert.are.equals( display.contentWidth, group.__items[1].width )
+    assert.are.equals(
+      display.contentHeight - metarow.tabBar.height,
+      group.__items[1].height
+    )
+  end)
+
+    it( "has an id and handles event over this id", function( )
+    view:setData( jsonString )
+    local group, templateName = view:exec( )
+      assert.are.equals( "objects", group.__items[1].id )
+      assert.is_true( type( group.__items[1].onRowRender ) == 'function' )
+      assert.is_true( type( group.__items[1].onRowTouch ) == 'function' )
+      assert.is_true( type( group.__items[1].listener ) == 'function' )
+    end)
+
 end)
