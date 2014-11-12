@@ -4,9 +4,24 @@
 
 ## How It Works
 
-MetaRow is an attempt to store business logic in a plain SQL database. A solution can use the table _MetaRow to save JSON strings which describe database model, application views and controller actions (MVC pattern).
+MetaRow is an attempt to store business logic in a plain SQL database.
+An application can use the table `_MetaRow` to save JSON strings.
+These strings describes a database **model**,
+application **views** and **controller** actions (MVC pattern).
+In other words, the JSON strings defines a meta level for SQL databases.
 
-For this purpose, a meta level was defined in this JSON strings.
+The following keywords are formed this meta level.
+
+<dl>
+  <dt>fun</dt>
+  <dd>
+    Calls a code block when interpreting the JSON string.
+  </dd>
+  <dt>val</dt>
+  <dd>Returns a simple values.</dd>
+  <dt>calc</dt>
+  <dd>Performs calculations in RPN notation.</dd>
+</dl>
 
 ```json
 [
@@ -62,19 +77,6 @@ For this purpose, a meta level was defined in this JSON strings.
   }
 ]
 ```
-
-There are 3 keywords defined:
-
-<dl>
-  <dt>fun</dt>
-  <dd>
-    Calls a code block when interpreting the JSON string.
-  </dd>
-  <dt>val</dt>
-  <dd>Returns simple values.</dd>
-  <dt>calc</dt>
-  <dd>Performes calculations in RPN notation.</dd>
-</dl>
 
 ## Usage
 
