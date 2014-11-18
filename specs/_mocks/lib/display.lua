@@ -49,6 +49,9 @@ function display.newText( args )
   args.anchorY = origin
   local text = TextObject( args )
   display.currentStage:insert( text )
+  if args.parent then
+    args.parent:insert( text )
+  end
   return text
 end
 

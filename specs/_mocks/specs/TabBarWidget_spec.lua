@@ -8,4 +8,12 @@ describe( "basic functions", function( )
     assert.is_true( simple.instanceof( object, TabBarWidget ) )
     assert.is_true( simple.subclassof( TabBarWidget, EventListener ) )
   end)
+
+  it( "processes all options", function( )
+    local options = {
+      width = 320
+    }
+    local object = TabBarWidget( options )
+    assert.are.equals( 320, object.width )
+  end)
 end)

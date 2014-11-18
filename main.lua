@@ -5,4 +5,4 @@ local MetaMan = require"lib.metarow.MetaMan"
 
 _root = MetaMan{ solutionName=metarow.defaultSolution }
 
-_root:call( 'english' )
+_root:call( 'categories' )

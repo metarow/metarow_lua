@@ -25,7 +25,7 @@ local createMetaTableString = [[
 local f
 f = io.open( 'specs/metarow/view_string_01.json', "r" )
 local viewString = f:read( "*a" )
-f = io.open( 'specs/metarow/controller_string.json', "r" )
+f = io.open( 'specs/metarow/controller_string_01.json', "r" )
 local controllerString = f:read( "*a" )
 
 local table = require "table"

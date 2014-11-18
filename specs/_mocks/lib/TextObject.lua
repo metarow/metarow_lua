@@ -11,6 +11,7 @@ function TextObject:__init( args )
   local attrs = table.copy( args or { }, { } )
   attrs.size = attrs.fontSize or 13
   attrs.fontSize = nil
+  attrs.fill = { }
   return attrs
 end
 
