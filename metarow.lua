@@ -7,6 +7,8 @@ local metarow = {
 
   defaultSolution = "inventory",
 
+  models = { },
+
   sources = { }
 }
 

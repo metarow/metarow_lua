@@ -1,0 +1,20 @@
+[
+  {
+    "fun" : {
+      "name" : "source",
+      "params" : {
+        "name" : { "val" : "objects" },
+        "type" : { "val" : "model" },
+        "scope" : { "val" : "all" }
+      }
+    }
+  },
+  {
+    "fun" : {
+      "name" :"display",
+      "params" : {
+        "view" : { "val" : "objects" }
+      }
+    }
+  }
+]
