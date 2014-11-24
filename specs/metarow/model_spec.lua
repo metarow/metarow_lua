@@ -1,5 +1,8 @@
 require"specs.spec_helper"
 
+local MetaMan = require"lib.metarow.MetaMan"
+_root = MetaMan( )
+
 local model = require"lib.metarow.model"
 
 describe( "basic functions", function( )
@@ -9,15 +12,15 @@ describe( "basic functions", function( )
   end)
 end)
 
-local f = io.open( 'specs/metarow/model_string_01.json', "r" )
-local jsonString = f:read( "*a" )
-
-local MetaMan = require"lib.metarow.MetaMan"
-_root = MetaMan( )
-model:setData( jsonString )
+local function initModel( tableString )
+  local f = io.open( tableString, "r" )
+  local jsonString = f:read( "*a" )
+  model:setData( jsonString )
+  return model:exec( )
+end
 
 describe( "checks a table structure", function( )
-  model:exec( )
+  initModel( 'specs/metarow/model_string_01.json' )
 
   it( "creates a missing table", function( )
     local fields = {}
@@ -42,18 +45,12 @@ describe( "checks a table structure", function( )
 end)
 
 describe( "sets the desired model in metarow namespace", function( )
-  local categoriesTableString = [[
-    CREATE TABLE categories (
-      id INTEGER NOT NULL,
-      name TEXT NOT NULL
-    );
-    INSERT INTO categories VALUES ( 1, 'furnitures');
-    INSERT INTO categories VALUES ( 2, 'paintings');
-  ]]
-  _root.handle:exec( categoriesTableString )
+  -- objects
+  local isOK = initModel( 'specs/metarow/model_string_01.json' )
+  -- categories
+  initModel( 'specs/metarow/model_string_02.json' )
 
   local tableName = 'objects'
-  local isOK = model:exec( )
 
   it( "chains the status", function( )
     assert.is_not_nil( isOK )
