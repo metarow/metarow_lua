@@ -32,11 +32,10 @@ function controller.source( params )
       return data
     end
   elseif type == "model" then
-    --local model = controller.stack:pop( )
     metarow.sources[name] = function( )
       local data = { }
       for row in _root.handle:nrows( ( "SELECT * FROM %s" ):format( name ) ) do
-        data[#data+1] = { id=row.id, name=row.name, category=row.catagory }
+        data[#data+1] = metarow.models[name].objects( row )
       end
       return data
     end

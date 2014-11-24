@@ -31,32 +31,31 @@ describe( "works with table source", function( )
     assert.are.equals( 1, data[1].ID )
     assert.are.equals( "paintings", data[2].name )
   end)
+end)
 
-  describe( "works with database source", function( )
-    local objectsTableString = [[
-      CREATE TABLE objects (
-        id INTEGER NOT NULL,
-        name TEXT NOT NULL,
-        category INTEGER NOT NULL
-      );
-      INSERT INTO objects VALUES ( 1, 'chair', 1);
-      INSERT INTO objects VALUES ( 2, 'Girl Before a Mirror', 2);
-    ]]
-    local MetaMan = require"lib.metarow.MetaMan"
-    _root = MetaMan( )
-    _root.handle:exec( objectsTableString )
-    local f = io.open( 'specs/metarow/controller_string_02.json', "r" )
+describe( "works with database source", function( )
+  local MetaMan = require"lib.metarow.MetaMan"
+  _root = MetaMan( )
+  local model = require"lib.metarow.model"
+  local function initModel( tableString )
+    local f = io.open( tableString, "r" )
     local jsonString = f:read( "*a" )
+    model:setData( jsonString )
+    model:exec( )
+  end
 
-    it( "loops through meta definition", function( )
-      controller:setData( jsonString )
-      assert.are.equals( 'model', controller.data[1].fun.params.type.val )
-      local view = controller:exec( )
-      assert.is_true( type( metarow.sources["objects"] ) == "function" )
-      local data = metarow.sources["objects"]( )
-      assert.are.equals( 1, data[1].id )
-      assert.are.equals( "Girl Before a Mirror", data[2].name )
-    end)
+  initModel( 'specs/metarow/model_string_01.json' )
+  initModel( 'specs/metarow/model_string_02.json' )
+  local f = io.open( 'specs/metarow/controller_string_02.json', "r" )
+  local jsonString = f:read( "*a" )
 
+  it( "loops through meta definition", function( )
+    controller:setData( jsonString )
+    assert.are.equals( 'model', controller.data[1].fun.params.type.val )
+    local view = controller:exec( )
+    assert.is_true( type( metarow.sources["objects"] ) == "function" )
+    local data = metarow.sources["objects"]( )
+    assert.are.equals( 1, data[1].id )
+    assert.are.equals( "Girl Before a Mirror", data[2].name )
   end)
 end)
