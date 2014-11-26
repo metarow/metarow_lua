@@ -6,4 +6,10 @@ function widget.newTabBar( args )
   return tabBarWidget
 end
 
+function widget.newTableView( args )
+  local tableViewWidget = TableViewWidget( args )
+  display.currentStage:insert( tableViewWidget )
+  return tableViewWidget
+end
+
 return widget

@@ -5,7 +5,11 @@ local metarow = {
     buttonLabelYOffset = -16
   },
 
-  defaultSolution = "inventory"
+  defaultSolution = "inventory",
+
+  models = { },
+
+  sources = { }
 }
 
 return metarow

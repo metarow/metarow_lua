@@ -1,0 +1,58 @@
+[
+  {
+    "fun" : {
+      "name" : "checkTable",
+      "params" : {
+        "table" : { "val" : "objects" },
+        "fields" : {
+          "val" : [
+            [ "id", "INTEGER", "NOT NULL PRIMARY KEY" ],
+            [ "name","TEXT", "NOT NULL" ],
+            [ "category_id", "INTEGER","NOT NULL" ]
+          ]
+        },
+        "examples" : {
+          "val" : [
+            " 1, \"chair\", 1 ",
+            " 2, \"Girl Before a Mirror\", 2 "
+          ]
+        }
+      }
+    }
+  },
+  {
+    "fun" : {
+      "name" :"mapFields",
+      "params" : {
+        "table" : { "val" : "objects" },
+        "objects" : {
+          "val" : {
+            "id":  {
+              "type":"number",
+              "field":"id"
+            },
+            "name" : {
+              "type":"string",
+              "field":"name"
+            },
+            "category" : {
+              "type":"lookup",
+              "field":"category_id" ,
+              "target": {
+                "name":"categories",
+                "type":"string",
+                "field":"name"
+              }
+            }
+          }
+        },
+        "scopes" : {
+          "val": {
+            "all" : "LIMIT 1000",
+            "id" : "WHERE id = %i"
+          }
+        }
+      }
+    }
+  }
+]

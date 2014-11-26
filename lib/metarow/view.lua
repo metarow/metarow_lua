@@ -4,6 +4,8 @@
 -- @module view
 -- @author Fritz-Rainer Doebbelin <frd@doebbelin.net>
 
+local widget = require"widget"
+
 local MetaJSON = require"lib.metarow.MetaJSON"
 local view = MetaJSON( )
 
@@ -36,6 +38,62 @@ end
 
 function view.createButton( params )
   return {}
+end
+
+local function onRowRender( event )
+  local row = event.row
+  local content = { }
+  local x = 0
+  local index = 0
+  local position = 0
+  for i, field in ipairs( row.params.fields ) do
+    local halfWidth = field.size * row.width * 0.5
+    position = position + halfWidth
+    local options = {
+      parent = row,
+      text = row.params.content[field.name],
+      x = position,
+      y = row.height * 0.5,
+      font = native.systemFont,
+      fontSize = 24
+    }
+    content[field.name] = display.newText( options )
+    content[field.name]:setFillColor( 0.3 )
+    position = position + halfWidth
+  end
+end
+
+local function onRowTouch( event )
+  -- body
+end
+
+local function scrollListener( event )
+  -- body
+end
+
+function view.createTableView( params )
+  local tableView = widget.newTableView{
+    backgroundColor = params.backgroundColor,
+    id = params.id,
+    left = params.x,
+    top = params.y,
+    width = params.width,
+    height = params.height,
+    noLines = true,
+    onRowRender = onRowRender,
+    onRowTouch = onRowTouch,
+    listener = scrollListener
+  }
+
+  local data = metarow.sources[params.id]( )
+  for _, row in ipairs( data ) do
+    tableView:insertRow{
+      rowHeight = params.rowHeight,
+      rowColor = params.rowColor,
+      params = { content = row, fields = params.fields }
+    }
+  end
+  return tableView
 end
 
 --- get the screen width
@@ -88,7 +146,9 @@ function view:exec(  )
   local group = display.newGroup()
   for i, element in ipairs( self.data ) do
     local object = self:getMeta( element )
-    if object then group:insert( object ) end
+    if object then
+      group:insert( object )
+    end
   end
   return group, templateName
 end

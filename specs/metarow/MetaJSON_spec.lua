@@ -4,7 +4,7 @@ local jsonString
 
 describe( "basic functions", function ( )
   setup( function ( )
-    local f = io.open( 'specs/metarow/view_string.json', "r" )
+    local f = io.open( 'specs/metarow/view_string_01.json', "r" )
     jsonString = f:read( "*a" )
   end)
 
