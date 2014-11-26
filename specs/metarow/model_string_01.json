@@ -13,8 +13,8 @@
         },
         "examples" : {
           "val" : [
-            " 1, 'chair', 1 ",
-            " 2, 'Girl Before a Mirror', 2 "
+            " 1, \"chair\", 1 ",
+            " 2, \"Girl Before a Mirror\", 2 "
           ]
         }
       }
@@ -39,7 +39,7 @@
               "type":"lookup",
               "field":"category_id" ,
               "target": {
-                "name":"categories"
+                "name":"categories",
                 "type":"string",
                 "field":"name"
               }

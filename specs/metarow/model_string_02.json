@@ -12,8 +12,8 @@
         },
         "examples" : {
           "val" : [
-            "1, 'furnitures'",
-            "2, 'paintings'"
+            "1, \"furnitures\"",
+            "2, \"paintings\""
           ]
         }
       }

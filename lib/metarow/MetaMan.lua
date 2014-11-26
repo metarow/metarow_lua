@@ -66,6 +66,7 @@ function MetaMan:__init( args )
   attribs.freeScreens = self:allScreens( )
 
   attribs.controller = require"lib.metarow.controller"
+  attribs.model = require"lib.metarow.model"
 
   attribs.template = require"lib.metarow.template"
   attribs.activeTemplate = { }
@@ -182,6 +183,20 @@ end
 function MetaMan:call( action )
   self.controller:setData( self:getDefinition( 'controller', action ) )
   self:gotoScreen( self.controller:exec( ) )
+end
+
+--- loads all models from meta table
+-- loads and executes the controller definition
+-- @tparam string name of the action
+-- @return nothing
+function MetaMan:loadAllModels(  )
+  local isOK
+  for row in self.handle:nrows( "SELECT * FROM _MetaRow WHERE type = 'model';" ) do
+    self.model:setData( row.value )
+    isOK = self.model:exec( )
+    if not isOK then break end
+  end
+  return isOK
 end
 
 return MetaMan
