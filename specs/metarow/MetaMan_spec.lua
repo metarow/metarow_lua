@@ -181,26 +181,26 @@ describe( "works with a template object", function( )
   end)
 end)
 
-_root = MetaMan( )
+metarow.root = MetaMan( )
 
 describe( "works with models", function ( )
   local tableName = { 'objects', 'categories' }
-  _root.handle:exec( createMetaTableString )
+  metarow.root.handle:exec( createMetaTableString )
   local  sql = [[
     INSERT INTO _MetaRow (type, key, value)
     VALUES ( 'model', '%s', '%s');
   ]]
-  _root.handle:exec( sql:format( tableName[1], modelString_01 ) )
-  _root.handle:exec( sql:format( tableName[2], modelString_02 ) )
+  metarow.root.handle:exec( sql:format( tableName[1], modelString_01 ) )
+  metarow.root.handle:exec( sql:format( tableName[2], modelString_02 ) )
 
   it( "inits a model creator", function( )
-    assert.is_not_nil( _root.model )
-    assert.is_true( base.instanceof( _root.model, MetaJSON ))
+    assert.is_not_nil( metarow.root.model )
+    assert.is_true( base.instanceof( metarow.root.model, MetaJSON ))
   end)
 
   it( "loads all models", function( )
-    assert.is_true( type( _root.loadAllModels ) == "function" )
-    local isOK = _root:loadAllModels()
+    assert.is_true( type( metarow.root.loadAllModels ) == "function" )
+    local isOK = metarow.root:loadAllModels()
     assert.is_not_nil( isOK )
     assert.is_not_nil( metarow.models )
     assert.is_not_nil( metarow.models[tableName[1]] )

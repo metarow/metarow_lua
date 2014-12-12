@@ -34,7 +34,7 @@ function controller.source( params )
   elseif type == "model" then
     metarow.sources[name] = function( )
       local data = { }
-      for row in _root.handle:nrows( ( "SELECT * FROM %s" ):format( name ) ) do
+      for row in metarow.root.handle:nrows( ( "SELECT * FROM %s" ):format( name ) ) do
         data[#data+1] = metarow.models[name].objects( row )
       end
       return data

@@ -168,7 +168,6 @@ function MetaMan:gotoScreen( viewName )
       effect = "fade",
       time = 500,
       params = {
-        root = self,
         type = 'view',
         key = viewName
       }

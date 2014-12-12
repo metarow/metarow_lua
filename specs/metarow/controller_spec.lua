@@ -35,7 +35,7 @@ end)
 
 describe( "works with database source", function( )
   local MetaMan = require"lib.metarow.MetaMan"
-  _root = MetaMan( )
+  metarow.root = MetaMan( )
   local model = require"lib.metarow.model"
   local function initModel( tableString )
     local f = io.open( tableString, "r" )
