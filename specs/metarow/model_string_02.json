@@ -1,0 +1,48 @@
+[
+  {
+    "fun" : {
+      "name" : "checkTable",
+      "params" : {
+        "table" : { "val" : "categories" },
+        "fields" : {
+          "val" : [
+            [ "id", "INTEGER", "NOT NULL PRIMARY KEY" ],
+            [ "name","TEXT", "NOT NULL" ]
+          ]
+        },
+        "examples" : {
+          "val" : [
+            "1, \"furnitures\"",
+            "2, \"paintings\""
+          ]
+        }
+      }
+    }
+  },
+  {
+    "fun" : {
+      "name" :"mapFields",
+      "params" : {
+        "table" : { "val" : "categories" },
+        "objects" : {
+          "val" : {
+            "id":  {
+              "type":"number",
+              "field":"id"
+            },
+            "name" : {
+              "type":"string",
+              "field":"name"
+            }
+          }
+        },
+        "scopes" : {
+          "val": {
+            "all" : "LIMIT 1000",
+            "id" : "WHERE id = %i"
+          }
+        }
+      }
+    }
+  }
+]

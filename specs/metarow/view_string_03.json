@@ -1,0 +1,29 @@
+[
+  {
+    "fun" : {
+      "name" : "createTableView",
+      "params" : {
+        "id" : { "val" : "categories" },
+        "x" : { "val" : 0 },
+        "y" : { "val" : 0 },
+        "width" :  { "fun" : { "name":"screenWidth" }},
+        "height" : { "calc" : [ "screenHeight()", "tabBarHeight()", "sub()" ] },
+        "fillColor" : { "val" : [0.5,0.5,0.5] },
+        "fields" : {
+          "val" : [
+            { "name" : "ID", "size" : 0.2 },
+            { "name" : "name", "size" : 0.8 }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "fun" : {
+      "name" :"setTemplate",
+      "params" : {
+        "template" : { "val" : "inventory"}
+      }
+    }
+  }
+]

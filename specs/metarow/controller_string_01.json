@@ -1,0 +1,25 @@
+[
+  {
+    "val" : [
+      { "ID" : 1, "name" : "furnitures"},
+      { "ID" : 2, "name" : "paintings"}
+    ]
+  },
+  {
+    "fun" : {
+      "name" : "source",
+      "params" : {
+        "name" : { "val" : "categories" },
+        "type" : { "val" : "table" }
+      }
+    }
+  },
+  {
+    "fun" : {
+      "name" :"display",
+      "params" : {
+        "view" : { "val" : "categories" }
+      }
+    }
+  }
+]

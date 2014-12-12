@@ -16,7 +16,7 @@ local group = display.newGroup()
 -- call a controller action
 -- @return nothing
 local function handleTabBarEvent( event )
-  _root:call( event.target._id )
+  metarow.root:call( event.target._id )
 end
 
 --- create a TabBarWidget

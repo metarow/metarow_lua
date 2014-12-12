@@ -23,10 +23,14 @@ local createMetaTableString = [[
   );
 ]]
 local f
-f = io.open( 'specs/metarow/view_string.json', "r" )
+f = io.open( 'specs/metarow/view_string_01.json', "r" )
 local viewString = f:read( "*a" )
-f = io.open( 'specs/metarow/controller_string.json', "r" )
+f = io.open( 'specs/metarow/controller_string_01.json', "r" )
 local controllerString = f:read( "*a" )
+f = io.open( 'specs/metarow/model_string_01.json', "r" )
+local modelString_01 = f:read( "*a" )
+f = io.open( 'specs/metarow/model_string_02.json', "r" )
+local modelString_02 = f:read( "*a" )
 
 local table = require "table"
 function table.contains( table, element )
@@ -177,3 +181,30 @@ describe( "works with a template object", function( )
   end)
 end)
 
+metarow.root = MetaMan( )
+
+describe( "works with models", function ( )
+  local tableName = { 'objects', 'categories' }
+  metarow.root.handle:exec( createMetaTableString )
+  local  sql = [[
+    INSERT INTO _MetaRow (type, key, value)
+    VALUES ( 'model', '%s', '%s');
+  ]]
+  metarow.root.handle:exec( sql:format( tableName[1], modelString_01 ) )
+  metarow.root.handle:exec( sql:format( tableName[2], modelString_02 ) )
+
+  it( "inits a model creator", function( )
+    assert.is_not_nil( metarow.root.model )
+    assert.is_true( base.instanceof( metarow.root.model, MetaJSON ))
+  end)
+
+  it( "loads all models", function( )
+    assert.is_true( type( metarow.root.loadAllModels ) == "function" )
+    local isOK = metarow.root:loadAllModels()
+    assert.is_not_nil( isOK )
+    assert.is_not_nil( metarow.models )
+    assert.is_not_nil( metarow.models[tableName[1]] )
+    assert.is_not_nil( metarow.models[tableName[2]].objects )
+    assert.is_not_nil( metarow.models[tableName[1]].scopes )
+  end)
+end)

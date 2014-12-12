@@ -29,7 +29,7 @@ local json = require "json"
 function MetaJSON:__init( args )
   args = args or { }
   local attribs = { }
-  attribs.data = json.decode( args.json or '{ }' )
+  attribs.data = json.decode( args.json or '{ }' ) or { }
   attribs.calc = calc
   return attribs
 end
@@ -39,7 +39,7 @@ end
 -- @tparam string jsonString with the data
 -- @return nothing
 function MetaJSON:setData( jsonString )
-  self.data = json.decode( jsonString or '{ }' )
+  self.data = json.decode( jsonString ) or { }
 end
 
 --- interpretes a single meta key
