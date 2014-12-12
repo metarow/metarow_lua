@@ -11,20 +11,19 @@ local screen = { }
 -- @tparam Event event fired when a scene initialized
 -- @treturn GroupObject with all display objects
 function screen.loadScene( screenName, event )
-  local root = event.params.root
   local type = event.params.type
   local key = event.params.key
   --TODO set timestamp for purgeScreen
-  root.activeViews[key] = { screenName = screenName }
-  root.view:setData(
-    root:getDefinition( type, key )
+  metarow.root.activeViews[key] = { screenName = screenName }
+  metarow.root.view:setData(
+    metarow.root:getDefinition( type, key )
   )
-  local group, templateName = root.view:exec( )
-  if root.activeTemplate.name ~= templateName then
+  local group, templateName = metarow.root.view:exec( )
+  if metarow.root.activeTemplate.name ~= templateName then
     --TODO remove old and display new template
-    root.activeTemplate.name = templateName
-    root.template:setData( root:getDefinition( 'template', templateName ) )
-    root.activeTemplate.group = root.template:exec( )
+    metarow.root.activeTemplate.name = templateName
+    metarow.root.template:setData( metarow.root:getDefinition( 'template', templateName ) )
+    metarow.root.activeTemplate.group = metarow.root.template:exec( )
   end
   return group
 end
