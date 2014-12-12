@@ -3,7 +3,7 @@ metarow = require"metarow"
 
 local MetaMan = require"lib.metarow.MetaMan"
 
-_root = MetaMan{ solutionName=metarow.defaultSolution }
-_root:loadAllModels()
+metarow.root = MetaMan{ solutionName=metarow.defaultSolution }
+metarow.root:loadAllModels()
 
-_root:call( 'objects' )
+metarow.root:call( 'objects' )

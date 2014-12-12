@@ -18,7 +18,7 @@ model.stack = Stack( )
 -- @treturn boolean table is ok
 function model.checkTable( params )
   local fields = {}
-  for row in _root.handle:nrows(
+  for row in metarow.root.handle:nrows(
     ( "PRAGMA table_info('%s');" ):format( params.table )
   ) do
     fields[#fields+1] = row
@@ -30,10 +30,10 @@ function model.checkTable( params )
     end
     local createTableString =
       ("CREATE TABLE %s (%s);"):format( params.table, table.concat( columns, "," ))
-    _root.handle:exec( createTableString )
+    metarow.root.handle:exec( createTableString )
     for _, example in ipairs( params.examples ) do
       local insertTableString = ("INSERT INTO %s VALUES (%s);"):format( params.table, example )
-      _root.handle:exec( insertTableString )
+      metarow.root.handle:exec( insertTableString )
     end
   else
     --TODO check against _MetaRow
@@ -61,7 +61,7 @@ function model.mapFields( params )
             ("SELECT %s FROM %s WHERE id=%i;"):format(
               mapping.target.field, mapping.target.name, row[mapping.field]
             )
-          _root.handle:exec( sql, function ( udata, cols, values, names )
+          metarow.root.handle:exec( sql, function ( udata, cols, values, names )
             value = values[1]
           end)
           data[object] = value

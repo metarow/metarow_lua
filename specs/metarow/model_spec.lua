@@ -1,7 +1,7 @@
 require"specs.spec_helper"
 
 local MetaMan = require"lib.metarow.MetaMan"
-_root = MetaMan( )
+metarow.root = MetaMan( )
 
 local model = require"lib.metarow.model"
 
@@ -24,7 +24,7 @@ describe( "checks a table structure", function( )
 
   it( "creates a missing table", function( )
     local fields = {}
-    for row in _root.handle:nrows( "PRAGMA table_info('objects');" ) do
+    for row in metarow.root.handle:nrows( "PRAGMA table_info('objects');" ) do
       fields[#fields+1] = row
     end
     assert.are.equals( 3,  #fields )
@@ -37,7 +37,7 @@ describe( "checks a table structure", function( )
 
   it( "inserts examples", function( )
     local rows = {}
-    for row in _root.handle:nrows( "SELECT * FROM objects;" ) do
+    for row in metarow.root.handle:nrows( "SELECT * FROM objects;" ) do
       rows[#rows+1] = row
     end
     assert.are.equals( 2,  #rows )
@@ -64,7 +64,7 @@ describe( "sets the desired model in metarow namespace", function( )
 
   it( "performs the mapping", function( )
     local rows = {}
-    for row in _root.handle:nrows( "SELECT * FROM objects;" ) do
+    for row in metarow.root.handle:nrows( "SELECT * FROM objects;" ) do
       rows[#rows+1] = metarow.models[tableName].objects( row )
     end
     assert.are.equals( 1, rows[1].id )
