@@ -36,10 +36,16 @@ function view.createText( params )
   return text
 end
 
+--- create a ButtonObject
+-- @tparams table params options for the button object
+-- @treturn ButtonObject
 function view.createButton( params )
   return {}
 end
 
+--- handles row render event
+-- creates text objects for database field content
+-- @tparams table params options
 local function onRowRender( event )
   local row = event.row
   local content = { }
